@@ -1,0 +1,56 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+    <div class="page">
+        <div class="header">
+            <div class="title">
+                <h1>
+                    My Tutoring
+                </h1>
+            </div>
+            <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Log In</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out" LogoutPageUrl="~/"/> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <div class="clear hideSkiplink">
+                <asp:Button ID="ButtonHome" runat="server" OnClick="ButtonHome_Click" Text="Home" Width="144px" />
+                <asp:Button ID="ButtonProfile" runat="server" OnClick="ButtonProfile_Click" Text="Profile" Width="134px" />
+                <asp:Button ID="Worksheet" runat="server" Text="Worksheet" Width="148px" OnClick="Worksheet_Click" />
+                <asp:Button ID="ButtonBatch" runat="server" Text="Batch" Width="121px" OnClick="ButtonBatch_Click" />
+                <asp:Button ID="ButtonSchedule" runat="server" Text="Schedule" Width="139px" />
+                <asp:Button ID="ButtonActivities" runat="server" OnClick="ButtonActivities_Click" Text="Activities" Width="144px" />
+                <asp:Panel ID="PanelActivities" runat="server" style="text-align: right" Visible="False">
+                    <asp:Button ID="ButtonQuiz" runat="server" Text="Quiz" Height="22px" OnClick="ButtonQuiz_Click" style="text-align: left; margin-left: 0px;" Width="131px" />
+                    <asp:Button ID="Button2" runat="server" Height="22px" style="text-align: left; margin-left: 0px;" Text="Button" Width="131px" />
+                    <asp:Button ID="Button1" runat="server" Height="22px" style="text-align: left; margin-left: 0px;" Text="Button" Width="131px" />
+                </asp:Panel>
+            </div>
+        </div>
+        <div class="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer">
+        
+    </div>
+    </form>
+</body>
+</html>
