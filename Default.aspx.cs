@@ -12,7 +12,7 @@ public partial class _Default : System.Web.UI.Page
     {
         string panel = Request.QueryString["pan"];
         if (panel == "t")
-            PanelChoose.Visible = true;
+            PanelChoose.Visible = true; 
     }
     protected void ButtonSubmit_Click(object sender, EventArgs e)
     {
