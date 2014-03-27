@@ -32,13 +32,13 @@
                 <asp:Button ID="ButtonHome" runat="server" OnClick="ButtonHome_Click" Text="Home" Width="144px" />
                 <asp:Button ID="ButtonProfile" runat="server" OnClick="ButtonProfile_Click" Text="Profile" Width="134px" />
                 <asp:Button ID="Worksheet" runat="server" Text="Worksheet" Width="148px" OnClick="Worksheet_Click" />
-                <asp:Button ID="ButtonBatch" runat="server" Text="Batch" Width="121px" OnClick="ButtonBatch_Click" />
-                <asp:Button ID="ButtonSchedule" runat="server" Text="Schedule" Width="139px" />
+                <asp:Button ID="ButtonBatch" runat="server" Text="Session" Width="121px" OnClick="ButtonBatch_Click" />
+                <asp:Button ID="ButtonAdmin" runat="server" Text="Admin" Width="139px" Enabled="False" OnClick="ButtonAdmin_Click" />
                 <asp:Button ID="ButtonActivities" runat="server" OnClick="ButtonActivities_Click" Text="Activities" Width="144px" />
                 <asp:Panel ID="PanelActivities" runat="server" style="text-align: right" Visible="False">
                     <asp:Button ID="ButtonQuiz" runat="server" Text="Quiz" Height="22px" OnClick="ButtonQuiz_Click" style="text-align: left; margin-left: 0px;" Width="131px" />
-                    <asp:Button ID="Button2" runat="server" Height="22px" style="text-align: left; margin-left: 0px;" Text="Button" Width="131px" />
-                    <asp:Button ID="Button1" runat="server" Height="22px" style="text-align: left; margin-left: 0px;" Text="Button" Width="131px" />
+                    <asp:Button ID="ButtonAttendance" runat="server" Height="22px" style="text-align: left; margin-left: 0px;" Text="Attendance" Width="131px" />
+                    <asp:Button ID="ButtonGrade" runat="server" Height="22px" style="text-align: left; margin-left: 0px;" Text="Grade" Width="131px" />
                 </asp:Panel>
             </div>
         </div>

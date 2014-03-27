@@ -11,17 +11,27 @@
         {
             width: 80px;
         }
+        .style1
+        {
+            width: 100%;
+        }
+        *{margin:0px 0px 0px 0px;
+  padding:0px;
+}
+        .style2
+        {
+            width: 100px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     
-    <asp:Button ID="ButtonTeacher" runat="server" Text="Teacher Registration" Width="141px" OnClick="ButtonTeacher_Click" Visible="False" />
-&nbsp;&nbsp;
-    <asp:Button ID="ButtonStudent" runat="server" Text="Student Registration" OnClick="ButtonStudent_Click" Visible="False" />
+    &nbsp;&nbsp;
     <br />
-    <asp:Panel ID="PanelTeacher" runat="server" Visible="False">
-        <asp:Label ID="LabelRole" runat="server"></asp:Label>
-        <table class="auto-style1">
+    <asp:Label ID="LabelRole" runat="server"></asp:Label>
+    <asp:Panel ID="PanelTeacher" runat="server" Visible="False" BorderStyle="Solid">
+        <h3><strong>Teacher Profile</strong></h3>
+&nbsp;<table class="auto-style1">
             <tr>
                 <td>
                     <table>
@@ -100,7 +110,7 @@
                         <tr>
                             <td>&nbsp;</td>
                             <td>
-                                <asp:Button ID="ButtonProfile" runat="server" Text="Create Profile" Width="98px" />
+                                <asp:Button ID="ButtonProfile" runat="server" Text="Create Profile" Width="98px" OnClick="ButtonProfile_Click" />
                             </td>
                         </tr>
                     </table>
@@ -108,7 +118,7 @@
                 <td>
                     <table>
                         <tr>
-                            <td>Create Batch: </td>
+                            <td>Create Session: </td>
                             <td>&nbsp;</td>
                         </tr>
                         <tr>
@@ -122,7 +132,7 @@
                         <tr>
                             <td>Select Grade:</td>
                             <td>
-                                <asp:DropDownList ID="DropDownList1" runat="server">
+                                <asp:DropDownList ID="DropDownListGrade" runat="server">
                                 </asp:DropDownList>
                             </td>
                         </tr>
@@ -146,22 +156,36 @@
                         <tr>
                             <td>&nbsp;</td>
                             <td>
-                                <asp:Button ID="ButtonBatch" runat="server" OnClick="ButtonBatch_Click" Text="Create Batch" />
+                                <asp:Button ID="ButtonBatch" runat="server" OnClick="ButtonBatch_Click" Text="Create Session" />
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
+                <td>
+                    &nbsp;</td>
+                <td>
+                    <asp:Label ID="Label2" runat="server" Text="Hello"></asp:Label>
+                    <br />
+                    <asp:Label ID="Label11" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <asp:Label ID="Label1" runat="server"></asp:Label>
+                </td>
+                <td>
+                    <asp:Button ID="ButtonSession" runat="server" OnClick="ButtonSession_Click" Text="Go to session Details Page" Width="227px" />
+                </td>
             </tr>
         </table>
 &nbsp;</asp:Panel>
 &nbsp;
     
     <br />
-    <asp:Panel ID="PanelStudent" runat="server" Visible="False">
+    <asp:Panel ID="PanelStudent" runat="server" Visible="False" BorderStyle="Solid">
+        <h3><strong>Student Profile </strong></h3>
         <table class="auto-style1">
             <tr>
                 <td>
@@ -197,10 +221,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Grade:</td>
+                            <td>&nbsp;</td>
                             <td>
-                                <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-                            </td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>
@@ -211,17 +234,11 @@
                 <td>
                     <table>
                         <tr>
-                            <td class="auto-style2">Choose your subject: </td>
-                            <td>
-                                <asp:CheckBoxList ID="CheckBoxList3" runat="server">
-                                    <asp:ListItem>Math</asp:ListItem>
-                                    <asp:ListItem>English</asp:ListItem>
-                                    <asp:ListItem>Science</asp:ListItem>
-                                    <asp:ListItem>History</asp:ListItem>
-                                    <asp:ListItem>Geography</asp:ListItem>
-                                    <asp:ListItem>Computer</asp:ListItem>
-                                </asp:CheckBoxList>
+                            <td class="auto-style2">
+                                <asp:Label ID="LabelStudent" runat="server" Text="Label"></asp:Label>
                             </td>
+                            <td>
+                                &nbsp;</td>
                         </tr>
                         <tr>
                             <td class="auto-style2">&nbsp;</td>
@@ -231,12 +248,11 @@
                 </td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
                 <td>
-                    The list of teacher according to your subject choose
-                    <asp:GridView ID="GridViewTeacher" runat="server">
-                    </asp:GridView>
+                    <asp:Button ID="ButtonStudentProfile" runat="server" OnClick="ButtonStudentProfile_Click" Text="Create Profile" Width="132px" />
                 </td>
+                <td>
+                    &nbsp;</td>
             </tr>
         </table>
     </asp:Panel>

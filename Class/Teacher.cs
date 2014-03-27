@@ -16,10 +16,10 @@ public struct TeacherIdentity
 }
 namespace Tutor.Class
 {
-    public class Teacher
+    public static class Teacher
     {
             protected int teacherid;
-   static Teacher()
+  public static Teacher()
   {
     //
     // TODO: Add constructor logic here

@@ -11,14 +11,14 @@ using System.Data.SqlClient;
 public static class Modify
 {
     public static bool SaveFile(string subId,int gradeID, string name, int lod, string contentType,
-            int size, byte[] data)
+            int size, byte[] data, int sessID)
     {
         bool y = false;
         SqlConnection c = Connection.connect();
         c.Open();
 
-        string commandText = "INSERT INTO Worksheet(SubjectID, GradeID,WorksheetName,LevelOfDifficulty,dateUploaded,worksheetData,sizeA,worksheetType)";
-        commandText +="VALUES(@subID,@gradeID,@Name,@lod,@d,@Data,@size,@ContentType)";
+        string commandText = "INSERT INTO Worksheet(SubjectID, GradeID,WorksheetName,LevelOfDifficulty,dateUploaded,worksheetData,sizeA,worksheetType,BatchID)";
+        commandText +="VALUES(@subID,@gradeID,@Name,@lod,@d,@Data,@size,@ContentType,@sess)";
 
         SqlCommand cmd = new SqlCommand(commandText, c);
 
@@ -30,6 +30,7 @@ public static class Modify
         cmd.Parameters.Add("@ContentType", SqlDbType.VarChar).Value = contentType;
         cmd.Parameters.Add("@size", SqlDbType.Int).Value = size;
         cmd.Parameters.Add("@Data", SqlDbType.VarBinary).Value = data;
+        cmd.Parameters.Add("@sess", SqlDbType.Int).Value = sessID;
         //cmd.Parameters.AddWithValue("@Data", data);
         if (cmd.ExecuteNonQuery() == 1)
             y = true;

@@ -31,6 +31,7 @@ p
 {
     margin-bottom: 10px;
     line-height: 1.6em;
+    text-align: left;
 }
 
 
@@ -43,7 +44,7 @@ h1, h2, h3, h4, h5, h6
     color: #666666;
     font-variant: small-caps;
     text-transform: none;
-    font-weight: 200;
+    font-weight: 700;
     margin-bottom: 0px;
 }
 

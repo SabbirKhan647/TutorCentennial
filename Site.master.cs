@@ -10,7 +10,14 @@ public partial class SiteMaster : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (Context.User.IsInRole("Admin"))
+        {
+            ButtonAdmin.Enabled = true;
+        }
+        if (Context.User.IsInRole("Tutor"))
+        {
+            ButtonBatch.Enabled = false;
+        }
     }
 
 
@@ -43,5 +50,9 @@ public partial class SiteMaster : System.Web.UI.MasterPage
     protected void ButtonQuiz_Click(object sender, EventArgs e)
     {
 
+    }
+    protected void ButtonAdmin_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Admin.aspx");
     }
 }

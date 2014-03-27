@@ -33,6 +33,7 @@ public partial class Build : System.Web.UI.Page
 
         }
     }
+    protected int id; 
     protected void ButtonShow_Click(object sender, EventArgs e)
     {
         PanelTeacher.Visible = true;
@@ -42,26 +43,59 @@ public partial class Build : System.Web.UI.Page
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@subid", SqlDbType.Int).Value = Convert.ToInt32(DropDownSub.SelectedValue);
         cmd.Parameters.Add("@grd", SqlDbType.Int).Value = Convert.ToInt32(DropDownGrade.SelectedValue);
-        SqlDataReader r = cmd.ExecuteReader();
+        SqlDataAdapter adapt = new SqlDataAdapter();
+        adapt.SelectCommand = cmd;
         DataTable d = new DataTable();
-        d.Load(r);
+        adapt.Fill(d);
         GridViewBatch.DataSource = d; GridViewBatch.DataBind();
+      //  id = Convert.ToInt32(GridViewBatch.DataKeys[GridViewBatch.SelectedIndex].Value);
+       // Session["BatchID"] = id;
         if (c != null)
         {
             c.Close();
         }
+       // Label1.Text = Session["BatchID"].ToString();
     }
+    
     protected void GridViewBatch_SelectedIndexChanged(object sender, EventArgs e)
     {
+        
+        c = Connection.connect();
+        c.Open();
+        id =  Convert.ToInt32(GridViewBatch.DataKeys[GridViewBatch.SelectedIndex].Value);
+        Session["BatchID"] = id;
+        SqlCommand cmd = new SqlCommand("ViewSessionDetails", c);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@b", SqlDbType.Int).Value = id;
+        //  cmd.Parameters.Add("@s", SqlDbType.Int).Value = Convert.ToInt32(Connection.StudentID);
+        SqlDataAdapter adapt = new SqlDataAdapter();
+        adapt.SelectCommand = cmd;
+        DataTable d = new DataTable();
+        adapt.Fill(d);
+        GridViewSessionDetails.DataSource = d; GridViewSessionDetails.DataBind();
+        if (c != null)
+        {
+            c.Close();
+        }
+       
+    }
+    
+
+
+    protected void GridViewBatch_RowDeleting(object sender, GridViewDeleteEventArgs e)
+    {
+        int rowIndex = e.RowIndex;
+        int bid = (int)GridViewBatch.DataKeys[rowIndex].Value;
         try
         {
             c = Connection.connect();
             c.Open();
-            int id = Convert.ToInt32(GridViewBatch.DataKeys[GridViewBatch.SelectedIndex].Value);
+            // id = Convert.ToInt32(GridViewBatch.DataKeys[GridViewBatch.SelectedIndex].Value);
+            Label1.Text = id.ToString();
             SqlCommand cmd = new SqlCommand("BatchStu", c);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@b", SqlDbType.Int).Value = id;
-            cmd.Parameters.Add("@s", SqlDbType.Int).Value = Convert.ToInt32(Connection.StudentID);
+            cmd.Parameters.Add("@b", SqlDbType.Int).Value = bid;// Session["BatchID"];
+            cmd.Parameters.Add("@s", SqlDbType.Int).Value = Connection.StudentID;
             if (cmd.ExecuteNonQuery() == 1)
             {
                 LabelConfirm.Text = "Batch Registration Confirmed";
@@ -74,9 +108,17 @@ public partial class Build : System.Web.UI.Page
 
         catch (SqlException ex)
         {
-           if(ex.Number == 2627)
-            LabelConfirm.Text = "You are already registered in this Batch";
-           
+            if (ex.Number == 2627)
+            {
+                LabelConfirm.Text = "You are already registered in this Batch";
+                // Label2.Text = Connection.StudentID.ToString();
+                // Label1.Text = Session["BatchID"].ToString();
+            }
+            else
+            {
+                LabelConfirm.Text = ex.Message; //Label2.Text = Session["StudentID"].ToString(); 
+            }
+
         }
     }
 }
