@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 
 public partial class Activities : System.Web.UI.Page
-{
+{ 
     SqlConnection c; SqlCommand cmd; SqlDataAdapter adapt; DataTable d;
     protected void Page_Load(object sender, EventArgs e)
     {
