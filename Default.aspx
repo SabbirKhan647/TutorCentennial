@@ -1,7 +1,10 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
     CodeFile="Default.aspx.cs" Inherits="_Default" %>
 
+<%@ Register assembly="GMaps" namespace="Subgurim.Controles" tagprefix="cc1" %>
+
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     <h2>
@@ -18,6 +21,9 @@
             <br />
             <asp:Button ID="ButtonSubmit" runat="server" OnClick="ButtonSubmit_Click" Text="Submit" />
             <br />
+            <br />
         </p>
     </asp:Panel>
+    <br />
+    <br />
 </asp:Content>

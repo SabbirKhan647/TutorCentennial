@@ -28,6 +28,11 @@
         <Columns>
             <asp:CommandField ShowSelectButton="True" HeaderText="ViewDetails" SelectText="View" />
             <asp:CommandField DeleteText="Select" ShowDeleteButton="True" />
+            <asp:TemplateField ShowHeader="False">
+                <ItemTemplate>
+                    <asp:Button ID="ButtonLocationGmap" runat="server" OnClick="ButtonLocationGmap_Click" Text="Location" />
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
     </asp:GridView>
     <br />

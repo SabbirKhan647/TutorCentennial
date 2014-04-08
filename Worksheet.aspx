@@ -112,7 +112,7 @@
             <h3><strong>Panel for Student </strong></h3>
             <br />
             Select Session:
-            <asp:DropDownList ID="DropDownListSessionStu" runat="server">
+            <asp:DropDownList ID="DropDownListSessionStu" runat="server" OnSelectedIndexChanged="DropDownListSessionStu_SelectedIndexChanged">
             </asp:DropDownList>
             <br />
             <br />

@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Text.RegularExpressions;
+using System.Drawing;
 
 public partial class Account_Register : System.Web.UI.Page
 {
@@ -26,8 +28,12 @@ public partial class Account_Register : System.Web.UI.Page
                 continueUrl = "~/";
             }
             Response.Redirect(continueUrl + "?pan=t");
+
         
         
     }
+    
 
+
+   
 }

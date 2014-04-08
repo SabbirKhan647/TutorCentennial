@@ -34,27 +34,25 @@
 &nbsp;<table class="auto-style1">
             <tr>
                 <td>
+                    tt<table>
+                        <tr>
+                            <td>
+                                <asp:Panel ID="PanelTutorCreateProfile" runat="server">
                     <table>
                         <tr>
                             <td>FirstName:</td>
                             <td>
-                                <asp:TextBox ID="TextBoxFName" runat="server" Width="214px"></asp:TextBox>
+                                <asp:TextBox ID="TextBoxFName" runat="server" Width="191px"></asp:TextBox>
                             </td>
                             <td>&nbsp;</td>
                         </tr>
+                       
                         <tr>
                             <td>LastName:</td>
                             <td>
                                 <asp:TextBox ID="TextBoxLName" runat="server" Width="217px"></asp:TextBox>
                             </td>
-                            <td rowspan="10">
-                                &nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td>
-                                <asp:TextBox ID="TextBoxEmail" runat="server" Width="217px"></asp:TextBox>
-                            </td>
+                            <td rowspan="9">&nbsp;</td>
                         </tr>
                         <tr>
                             <td>Phone:</td>
@@ -79,6 +77,12 @@
                                     <asp:ListItem>SK</asp:ListItem>
                                     <asp:ListItem>NS</asp:ListItem>
                                 </asp:DropDownList>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>PostalCode:</td>
+                            <td>
+                                <asp:TextBox ID="TextBoxPC" runat="server" Width="94px" OnTextChanged="TextBoxEmail_TextChanged"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -111,9 +115,25 @@
                             <td>&nbsp;</td>
                             <td>
                                 <asp:Button ID="ButtonProfile" runat="server" Text="Create Profile" Width="98px" OnClick="ButtonProfile_Click" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </td>
                         </tr>
                     </table>
+
+                    </asp:Panel></td>
+                            <td>
+                                <asp:Panel ID="PanelTutorUpdateProfile" runat="server">
+                        <asp:DetailsView ID="DetailsViewTutor" runat="server" Height="50px" Width="125px" OnItemUpdating="DetailsViewTutor_ItemUpdating" OnModeChanging="DetailsViewTutor_ModeChanging">
+                            <Fields>
+                                <asp:CommandField ShowEditButton="True" />
+                            </Fields>
+                                    </asp:DetailsView>
+                        <asp:Button ID="ButtonUpdateTutor" runat="server" Text="Update Profile" />
+                         </asp:Panel></td>
+                        </tr>
+                    </table>
+
+                    
                 </td>
                 <td>
                     <table>
@@ -203,15 +223,28 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Email:</td>
-                            <td>
-                                <asp:TextBox ID="TextBoxEmail0" runat="server"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
                             <td>Phone:</td>
                             <td>
                                 <asp:TextBox ID="TextBoxPhone0" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>PostalCode:</td>
+                            <td>
+                                <asp:TextBox ID="TextBoxPCStu" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Province:</td>
+                            <td>
+                                <asp:DropDownList ID="DropDownProvince0" runat="server">
+                                    <asp:ListItem>ON</asp:ListItem>
+                                    <asp:ListItem>BC</asp:ListItem>
+                                    <asp:ListItem>AB</asp:ListItem>
+                                    <asp:ListItem>MT</asp:ListItem>
+                                    <asp:ListItem>SK</asp:ListItem>
+                                    <asp:ListItem>NS</asp:ListItem>
+                                </asp:DropDownList>
                             </td>
                         </tr>
                         <tr>

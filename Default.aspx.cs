@@ -6,6 +6,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
 using System.Data.SqlClient;
+using System.Data;
+using Subgurim.Controles;
+using System.Drawing;
 
 public partial class _Default : System.Web.UI.Page
 {
@@ -60,8 +63,32 @@ public partial class _Default : System.Web.UI.Page
             {
                 techerID = rdr.GetInt32(0);
             }
-
             Session["TeacherID"] = techerID;
+            rdr.Close();
+            if (c != null)
+                c.Close();
+            
+            Session["username"] = Membership.GetUser().UserName;
+            SqlConnection con = Connection.connect(); con.Open();
+            SqlCommand cm = new SqlCommand("select UserId from aspnet_Users where UserName = '" + Session["username"] + "'", con);
+            SqlDataReader rr = cm.ExecuteReader();
+            string s = "";
+            if (rr.Read())
+                s = rr[0].ToString();
+            rr.Close();
+            con.Close();
+            
+            SqlConnection gmap = Connection.connect();
+            gmap.Open();
+            SqlCommand cmdgmap = new SqlCommand("FullAddress", gmap);
+            cmdgmap.CommandType = CommandType.StoredProcedure;
+            cmdgmap.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
+            SqlDataReader rGmap = cmdgmap.ExecuteReader();
+            if (rGmap.Read())
+            {
+
+            }
+           
         }
     }
     protected void ButtonSubmit_Click(object sender, EventArgs e)
@@ -77,4 +104,5 @@ public partial class _Default : System.Web.UI.Page
             Response.Redirect("Registration.aspx?val=stu");
         }
     }
+   
 }

@@ -48,16 +48,23 @@ public partial class Worksheet : System.Web.UI.Page
        }
         if (Context.User.IsInRole("Student"))
         {
-            PanelUpDownload.Visible = false;
-            PanelWorksheetStudent.Visible = true;
+            if (!IsPostBack)
+            {
+                PanelUpDownload.Visible = false;
+                PanelWorksheetStudent.Visible = true;
 
-            c = Connection.connect();
+                c = Connection.connect();
 
-            c.Open();
-            SqlDataAdapter Adapter = new SqlDataAdapter("select BatchID from BatchStudent where StudentID = "+Connection.StudentID.ToString(), c);
-            DataTable d = new DataTable(); Adapter.Fill(d);
-            DropDownListSessionStu.DataSource = d; DropDownListSessionStu.DataTextField = "BatchID"; DropDownListSessionStu.DataValueField = "BatchID";
-            DropDownListSessionStu.DataBind();
+                c.Open();
+                SqlCommand cmdstu = new SqlCommand("StuBatchList", c);
+                cmdstu.CommandType = CommandType.StoredProcedure;
+                cmdstu.Parameters.Add("@b", SqlDbType.Int).Value = Connection.StudentID;
+                SqlDataAdapter Adapter = new SqlDataAdapter();
+                Adapter.SelectCommand = cmdstu;
+                DataTable d = new DataTable(); Adapter.Fill(d);
+                DropDownListSessionStu.DataSource = d; DropDownListSessionStu.DataTextField = "BatchName"; DropDownListSessionStu.DataValueField = "BatchID";
+                DropDownListSessionStu.DataBind(); 
+            }
 
             
 
@@ -130,7 +137,21 @@ public partial class Worksheet : System.Web.UI.Page
                 lblMessage.Text = "File format not recognised." +
                   " Upload Image/Word/PDF/Excel formats";
             }
-       
+
+        c = Connection.connect();
+        c.Open();
+        string cmdText = "SELECT WorksheetID, SubjectID, GradeID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where SubjectID = ";
+        cmdText += DropDownListSub.SelectedValue + " and GradeID = " + DropDownListGrade.SelectedValue + " and LevelOfDifficulty = " + DropDownListLOD.SelectedValue;
+        SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
+        DataTable dd = new DataTable();
+        adapt.Fill(dd);
+        GridViewWorksheet.DataSource = dd;
+        GridViewWorksheet.DataBind();
+        GridViewWorksheet.Visible = true;
+        if (c != null)
+        {
+            c.Close();
+        }
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
@@ -138,7 +159,7 @@ public partial class Worksheet : System.Web.UI.Page
         ButtonShow.Visible = false;
         FileUpload1.Visible = true;
         ButtonUpload.Visible = true;
-        GridViewWorksheet.Visible = false;
+       // GridViewWorksheet.Visible = false;
     }
     protected void Button2_Click(object sender, EventArgs e)
     {
@@ -228,5 +249,9 @@ public partial class Worksheet : System.Web.UI.Page
         }
 
     }
-    
+
+    protected void DropDownListSessionStu_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        GridViewStuDown.Visible = false;
+    }
 }

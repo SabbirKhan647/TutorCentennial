@@ -33,7 +33,7 @@ public partial class Build : System.Web.UI.Page
 
         }
     }
-    protected int id; 
+    protected int id; string gmapAddress = "";
     protected void ButtonShow_Click(object sender, EventArgs e)
     {
         PanelTeacher.Visible = true;
@@ -43,6 +43,10 @@ public partial class Build : System.Web.UI.Page
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@subid", SqlDbType.Int).Value = Convert.ToInt32(DropDownSub.SelectedValue);
         cmd.Parameters.Add("@grd", SqlDbType.Int).Value = Convert.ToInt32(DropDownGrade.SelectedValue);
+        SqlDataReader rGmap = cmd.ExecuteReader();
+        if (rGmap.Read())
+            gmapAddress = rGmap["FullAddress"].ToString();
+        rGmap.Close();
         SqlDataAdapter adapt = new SqlDataAdapter();
         adapt.SelectCommand = cmd;
         DataTable d = new DataTable();
@@ -120,5 +124,9 @@ public partial class Build : System.Web.UI.Page
             }
 
         }
+    }
+    protected void ButtonLocationGmap_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Geocoding.aspx?ad=" + gmapAddress);
     }
 }

@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Web.Security;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text.RegularExpressions;
+using System.Drawing;
 
 public partial class About : System.Web.UI.Page
 {
@@ -30,12 +32,25 @@ public partial class About : System.Web.UI.Page
             PanelStudent.Visible = true;
             LabelRole.Text = "Student Profile";
         }
-
+        SqlConnection c;
         Page.Header.DataBind();
         Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "mykey", "currentdate();", true);
-
+        if (Context.User.IsInRole("Tutor"))
+        {
+            
+            SqlConnection ct = Connection.connect();
+            ct.Open();
+            SqlCommand cmdUpdateTutor = new SqlCommand("TeacherDetails", ct);
+            cmdUpdateTutor.CommandType = CommandType.StoredProcedure;
+            cmdUpdateTutor.Parameters.Add("@t", SqlDbType.Int).Value = Session["TeacherID"];
+            SqlDataAdapter adapt = new SqlDataAdapter();
+            adapt.SelectCommand = cmdUpdateTutor; DataTable d = new DataTable();
+            adapt.Fill(d);
+            DetailsViewTutor.DataSource = d; DetailsViewTutor.DataBind();
+            ct.Close();
+        }
         
-        SqlConnection c;
+        
 
         for (int i = 1; i <= 30; i++)
         {
@@ -187,7 +202,7 @@ public partial class About : System.Web.UI.Page
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.Add("@f", SqlDbType.VarChar).Value = TextBoxFName.Text;
             cmd.Parameters.Add("@l", SqlDbType.VarChar).Value = TextBoxLName.Text;
-            cmd.Parameters.Add("@e", SqlDbType.VarChar).Value = TextBoxEmail.Text;
+            cmd.Parameters.Add("@e", SqlDbType.VarChar).Value = TextBoxPC.Text;
             cmd.Parameters.Add("@p", SqlDbType.VarChar).Value = TextBoxPhone.Text;
             cmd.Parameters.Add("@ad", SqlDbType.VarChar).Value = TextBoxAddress.Text;
             // cmd.Parameters.Add("@dis", SqlDbType.VarChar).Value = District.SelectedItem.ToString();
@@ -238,17 +253,48 @@ public partial class About : System.Web.UI.Page
         cmd.CommandType = CommandType.StoredProcedure;
         cmd.Parameters.Add("@f", SqlDbType.VarChar).Value = TextBoxFName0.Text;
         cmd.Parameters.Add("@l", SqlDbType.VarChar).Value = TextBoxLName0.Text;
-        cmd.Parameters.Add("@e", SqlDbType.VarChar).Value = TextBoxEmail0.Text;
+        cmd.Parameters.Add("@pc", SqlDbType.VarChar).Value = TextBoxPCStu.Text;
         cmd.Parameters.Add("@p", SqlDbType.VarChar).Value = TextBoxPhone0.Text;
+        cmd.Parameters.Add("@pro", SqlDbType.VarChar).Value = DropDownProvince0.SelectedItem.ToString();
         cmd.Parameters.Add("@add", SqlDbType.VarChar).Value = TextBoxAddress0.Text;
-       
-        
         cmd.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
+       
         Label2.Text = s;
         if (cmd.ExecuteNonQuery() == 1)
         {
             LabelStudent.Text = "Insert successful";
 
+        }
+    }
+    protected void TextBoxEmail_TextChanged(object sender, EventArgs e)
+    {
+        if (IsValidd(TextBoxPC.Text))
+        {
+            LabelRole.Text = "Hellooo";//"\u221A";
+            LabelRole.ForeColor = Color.Green;
+        }
+        
+    }
+    public bool IsValidd(string value)
+    {
+        return Regex.IsMatch(value, @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
+    }
+
+
+    protected void DetailsViewTutor_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
+    {
+
+    }
+   
+    protected void DetailsViewTutor_ModeChanging(object sender, DetailsViewModeEventArgs e)
+    {
+        if (e.NewMode == DetailsViewMode.Edit)
+        {
+            DetailsViewTutor.AllowPaging = false;
+        }
+        else
+        {
+            DetailsViewTutor.AllowPaging = true;
         }
     }
 }
