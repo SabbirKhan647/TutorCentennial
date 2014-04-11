@@ -122,14 +122,7 @@
 
                     </asp:Panel></td>
                             <td>
-                                <asp:Panel ID="PanelTutorUpdateProfile" runat="server">
-                        <asp:DetailsView ID="DetailsViewTutor" runat="server" Height="50px" Width="125px" OnItemUpdating="DetailsViewTutor_ItemUpdating" OnModeChanging="DetailsViewTutor_ModeChanging">
-                            <Fields>
-                                <asp:CommandField ShowEditButton="True" />
-                            </Fields>
-                                    </asp:DetailsView>
-                        <asp:Button ID="ButtonUpdateTutor" runat="server" Text="Update Profile" />
-                         </asp:Panel></td>
+                                &nbsp;</td>
                         </tr>
                     </table>
 
@@ -184,7 +177,19 @@
             </tr>
             <tr>
                 <td>
-                    &nbsp;</td>
+                    <asp:Panel ID="PanelUpdateTutor" runat="server">
+                        <asp:GridView ID="GridViewUpdateTutor" runat="server" AutoGenerateColumns="False" DataKeyNames="TeacherID" OnRowCancelingEdit="GridViewUpdateTutor_RowCancelingEdit" OnRowEditing="GridViewUpdateTutor_RowEditing" OnRowUpdating="GridViewUpdateTutor_RowUpdating">
+                            <Columns>
+                                <asp:CommandField ShowEditButton="True" />
+                                <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
+                                <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
+                                <asp:BoundField DataField="phone" HeaderText="Phone" SortExpression="phone" />
+                                <asp:BoundField DataField="address" HeaderText="Address" SortExpression="address" />
+                                <asp:BoundField DataField="Province" HeaderText="Province" SortExpression="Province" />
+                            </Columns>
+                        </asp:GridView>
+                    </asp:Panel>
+                </td>
                 <td>
                     <asp:Label ID="Label2" runat="server" Text="Hello"></asp:Label>
                     <br />

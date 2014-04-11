@@ -11,41 +11,44 @@ public partial class InsertSessionDetails : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        for (int i = 60; i < 1500; i++)
+        if (!IsPostBack)
         {
-            DropDownStTime.Items.Add(DateTime.MinValue.AddMinutes(i).ToString("hh:mm tt"));
-            i = i + 29;
-        }
-        for (int i = 120; i < 1560; i++)
-        {
-            DropDownEndTime.Items.Add(DateTime.MinValue.AddMinutes(i).ToString("hh:mm tt"));
-            i = i + 29;
-        }
-        //get previous page data
-        int teacherid = Convert.ToInt32(Session["TeacherID"]);
-        Label1.Text = teacherid.ToString();
-        // int  gid = Convert.ToInt32 (Session["gradeid"]);
-        //int sid = Convert.ToInt32 (Session["subid"]);
+            for (int i = 60; i < 1500; i++)
+            {
+                DropDownStTime.Items.Add(DateTime.MinValue.AddMinutes(i).ToString("hh:mm tt"));
+                i = i + 29;
+            }
+            for (int i = 120; i < 1560; i++)
+            {
+                DropDownEndTime.Items.Add(DateTime.MinValue.AddMinutes(i).ToString("hh:mm tt"));
+                i = i + 29;
+            }
+            //get previous page data
+            int teacherid = Convert.ToInt32(Session["TeacherID"]);
+            Label1.Text = teacherid.ToString();
+            // int  gid = Convert.ToInt32 (Session["gradeid"]);
+            //int sid = Convert.ToInt32 (Session["subid"]);
 
 
-        SqlConnection cc;
-        cc = Connection.connect();
-        cc.Open();
-        SqlDataAdapter adapt = new SqlDataAdapter("SELECT BatchID, BatchName from Batch where TeacherID = " + teacherid.ToString(), cc);
-        //2. Define parameter
+            SqlConnection cc;
+            cc = Connection.connect();
+            cc.Open();
+            SqlDataAdapter adapt = new SqlDataAdapter("SELECT BatchID, BatchName from Batch where TeacherID = " + teacherid.ToString(), cc);
+            //2. Define parameter
 
-        DataTable d = new DataTable();
-        adapt.Fill(d);
+            DataTable d = new DataTable();
+            adapt.Fill(d);
 
-        DropDownListBatch.DataTextField = "BatchName"; DropDownListBatch.DataValueField = "BatchID";
-        DropDownListBatch.DataSource = d; DropDownListBatch.DataBind();
-        // store BatchID in session
-        // Session["BatchID"] = batchID;
+            DropDownListBatch.DataTextField = "BatchName"; DropDownListBatch.DataValueField = "BatchID";
+            DropDownListBatch.DataSource = d; DropDownListBatch.DataBind();
+            // store BatchID in session
+            // Session["BatchID"] = batchID;
 
-        //    Label1.Text = Session["TeacherID"].ToString();
-        if (cc != null)
-        {
-            cc.Close();
+            //    Label1.Text = Session["TeacherID"].ToString();
+            if (cc != null)
+            {
+                cc.Close();
+            } 
         }
     }
     protected void ButtonInsert_Click(object sender, EventArgs e)

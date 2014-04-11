@@ -14,6 +14,7 @@ public partial class About : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+      
         if (Context.User.IsInRole("Admin"))
         {
             PanelStudent.Visible = true;
@@ -46,7 +47,7 @@ public partial class About : System.Web.UI.Page
             SqlDataAdapter adapt = new SqlDataAdapter();
             adapt.SelectCommand = cmdUpdateTutor; DataTable d = new DataTable();
             adapt.Fill(d);
-            DetailsViewTutor.DataSource = d; DetailsViewTutor.DataBind();
+            GridViewUpdateTutor.DataSource = d; GridViewUpdateTutor.DataBind();
             ct.Close();
         }
         
@@ -95,27 +96,27 @@ public partial class About : System.Web.UI.Page
     }
     protected void ButtonBatch_Click(object sender, EventArgs e)
     {
-        int techerID = 0;
-        MembershipUser userInfo = Membership.GetUser();
-        string userid = userInfo.ProviderUserKey.ToString();
+       // int techerID = 0;
+        //MembershipUser userInfo = Membership.GetUser();
+        //string userid = userInfo.ProviderUserKey.ToString();
 
-        SqlConnection c; c = Connection.connect();
-        c.Open();
-        SqlCommand cmdd = new SqlCommand("select TeacherID from Teacher where UserId= @userid", c);
-        //2. Define parameter
-        SqlParameter param = new SqlParameter();
-        param.ParameterName = "@userid";
-        param.Value = userid;
-        cmdd.Parameters.Add(param);
+        //SqlConnection c; c = Connection.connect();
+        //c.Open();
+        //SqlCommand cmdd = new SqlCommand("select TeacherID from Teacher where UserId= @userid", c);
+        ////2. Define parameter
+        //SqlParameter param = new SqlParameter();
+        //param.ParameterName = "@userid";
+        //param.Value = userid;
+        //cmdd.Parameters.Add(param);
 
-        SqlDataReader rdr = null;
-        rdr = cmdd.ExecuteReader();
-        while (rdr.Read())
-        {
-            techerID = rdr.GetInt32(0);
-        }
+        //SqlDataReader rdr = null;
+        //rdr = cmdd.ExecuteReader();
+        //while (rdr.Read())
+        //{
+        //    techerID = rdr.GetInt32(0);
+        //}
 
-        Session["TeacherID"] = techerID;
+        //Session["TeacherID"] = techerID;
 
         string teacherid = Session["TeacherID"].ToString();
 
@@ -126,10 +127,10 @@ public partial class About : System.Web.UI.Page
         string timeCreated = DateTime.Now.ToShortTimeString();
 
         string stDate = Calendar1.SelectedDate.ToShortDateString();
-        if(c!= null)
-        {
-            c.Close();
-        }
+        //if(c!= null)
+        //{
+        //    c.Close();
+        //}
 
         SqlConnection cc = Connection.connect(); cc.Open();
         SqlCommand cmd = new SqlCommand("createBatchSP", cc);
@@ -230,8 +231,6 @@ public partial class About : System.Web.UI.Page
                 LabelRole.Text = "The profile aleary Created";
         }
     }
-
-
     protected void ButtonSession_Click(object sender, EventArgs e)
     {
         Response.Redirect("InsertSessionDetails.aspx");
@@ -279,22 +278,67 @@ public partial class About : System.Web.UI.Page
     {
         return Regex.IsMatch(value, @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
     }
-
-
-    protected void DetailsViewTutor_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
+    
+    protected void GridViewUpdateTutor_RowEditing(object sender, GridViewEditEventArgs e)
     {
+        GridViewUpdateTutor.EditIndex = e.NewEditIndex;
+        GridBind();
+       
+    }
+
+    private void GridBind()
+    {
+        SqlConnection c = Connection.connect(); c.Open();
+        SqlCommand cmd = new SqlCommand("TeacherDetails", c);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@t", SqlDbType.Int).Value = Session["TeacherID"];
+        SqlDataAdapter adapt = new SqlDataAdapter();
+        adapt.SelectCommand = cmd;
+        DataTable d = new DataTable();
+        adapt.Fill(d);
+        GridViewUpdateTutor.Visible = true;
+        GridViewUpdateTutor.DataSource = d;
+        GridViewUpdateTutor.DataBind();
+        c.Close();
+        
+    }
+    protected void GridViewUpdateTutor_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    {
+       // LabelRole.Text = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
+        string pt = GridViewUpdateTutor.DataKeys[e.RowIndex].Value.ToString();
+        //string pt = ((Label)GridViewPtDemo.Rows[e.RowIndex].Cells[0].Controls[0]).Text;
+        string fn = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[1].Controls[0]).Text;
+        string ln = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
+        string ph = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[3].Controls[0]).Text;
+        string ad = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
+        string pro = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[5].Controls[0]).Text;
+       // string dt = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[7].Controls[0]).Text;
+        // string description = ((TextBox)GridViewPtDemo.Rows[e.RowIndex].FindControl("descriptionTextBox")).Text;
+        // Execute the update command
+      //  DateTime d = DateTime.Parse(dt);
+        SqlConnection c = Connection.connect(); c.Open();
+        SqlCommand cmd = new SqlCommand("UpdateTutor", c);
+        cmd.CommandType = CommandType.StoredProcedure;
+
+        cmd.Parameters.Add("@t", SqlDbType.Int).Value = pt;
+        cmd.Parameters.Add("@fn", SqlDbType.VarChar).Value = fn;
+        cmd.Parameters.Add("@ln", SqlDbType.VarChar).Value = ln;
+        cmd.Parameters.Add("@ph", SqlDbType.VarChar).Value = ph;
+        cmd.Parameters.Add("@add", SqlDbType.VarChar).Value = ad;
+        cmd.Parameters.Add("@pro", SqlDbType.Char).Value = pro;
+       // cmd.Parameters.Add("@dob", SqlDbType.Date).Value = d;
+
+        if (cmd.ExecuteNonQuery() == 1)
+            LabelRole.Text = "Update Successfull";
+        if (c != null)
+            c.Close();
+        GridViewUpdateTutor.EditIndex = -1;
+        GridBind();
 
     }
-   
-    protected void DetailsViewTutor_ModeChanging(object sender, DetailsViewModeEventArgs e)
+    protected void GridViewUpdateTutor_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
-        if (e.NewMode == DetailsViewMode.Edit)
-        {
-            DetailsViewTutor.AllowPaging = false;
-        }
-        else
-        {
-            DetailsViewTutor.AllowPaging = true;
-        }
+        GridViewUpdateTutor.EditIndex = -1;
+        GridBind();
     }
 }

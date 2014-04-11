@@ -17,15 +17,18 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-    
+  <div style="overflow: auto; width: 900px; height: auto">  
 &nbsp;&nbsp;
-        &nbsp;<asp:Panel ID="PanelUpDownload" runat="server" BorderStyle="Ridge" Visible="False">
+        &nbsp;<asp:Panel ID="PanelUpDownload" style="overflow: auto; width: 850px; height: auto" runat="server" BorderStyle="Ridge" Visible="False">
             <h3>Panel For Tutor</h3>
             <br />
 &nbsp;<asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Upload" Width="176px" />
             <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Download" Width="177px" />
             <br />
             <br />
+            
+     
+
             <table class="auto-style1">
                 <tr>
                     <td class="auto-style5">
@@ -90,6 +93,7 @@
                         </table>
                     </td>
                     <td>
+                        
                         <asp:GridView ID="GridViewWorksheet" runat="server" DataKeyNames="WorksheetID" OnSelectedIndexChanged="GridViewWorksheet_SelectedIndexChanged" style="margin-left: 0px">
                             <Columns>
                                 <asp:TemplateField>
@@ -105,10 +109,12 @@
                     </td>
                 </tr>
             </table>
+
+           
             <br />
         </asp:Panel>
         <br />
-        <asp:Panel ID="PanelWorksheetStudent" runat="server" Visible="False" BorderStyle="Ridge">
+        <asp:Panel ID="PanelWorksheetStudent" style="overflow: auto; width: 850px; height: auto" runat="server" Visible="False" BorderStyle="Ridge">
             <h3><strong>Panel for Student </strong></h3>
             <br />
             Select Session:
@@ -130,5 +136,6 @@
         </asp:Panel>
         <br />
 <br />
+      </div>
 </asp:Content>
 

@@ -5,14 +5,14 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TutorCentennial", ".", "{25
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/Tutoring"
-		Debug.AspNetCompiler.PhysicalPath = "..\Tutoring\"
+		Debug.AspNetCompiler.PhysicalPath = "..\TutorCentennial\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Tutoring\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/Tutoring"
-		Release.AspNetCompiler.PhysicalPath = "..\Tutoring\"
+		Release.AspNetCompiler.PhysicalPath = "..\TutorCentennial\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Tutoring\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
@@ -31,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
