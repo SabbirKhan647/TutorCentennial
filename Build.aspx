@@ -1,11 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Build.aspx.cs" Inherits="Build" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
+    <style type="text/css">
+        .auto-style1 {
+            font-size: large;
+            color: #333300;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <p>
-        &nbsp;Welcome to Batch Chosen Page</p>
-    <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        &nbsp;<strong><span class="auto-style1">Welcome to Batch Chosen Page</span></strong></p>
+    <asp:Label ID="Label1" runat="server"></asp:Label>
     <br />
     <asp:Panel ID="PanelGrade" runat="server">
         Choose Your Subject That you want tutoring:&nbsp;
@@ -20,7 +26,6 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Button ID="ButtonShow" runat="server" Text="Show Available Teacher" Width="196px" OnClick="ButtonShow_Click" />
     </asp:Panel>
-    adsad
     <br />
 <asp:Panel ID="PanelTeacher" runat="server" Visible="False">
     Available Batch with Teacher Listed:<br />
@@ -38,7 +43,7 @@
     <br />
     <asp:Label ID="LabelConfirm" runat="server"></asp:Label>
     <br />
-    <asp:Label ID="Label2" runat="server" Text="Label"></asp:Label>
+    <asp:Label ID="Label2" runat="server"></asp:Label>
     <asp:GridView ID="GridViewSessionDetails" runat="server">
     </asp:GridView>
     <br />

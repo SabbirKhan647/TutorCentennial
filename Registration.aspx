@@ -22,19 +22,35 @@
         {
             width: 100px;
         }
+        .auto-style3 {
+            width: 2px;
+        }
+        .auto-style4 {
+            font-weight: normal;
+            font-size: large;
+            color: #003300;
+        }
+        .auto-style5 {
+            font-size: large;
+            color: #003300;
+        }
+        .auto-style6 {
+            width: 402px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
     
     &nbsp;&nbsp;
     <br />
-    <asp:Label ID="LabelRole" runat="server"></asp:Label>
+&nbsp;<asp:Label ID="Label12" runat="server"></asp:Label>
     <asp:Panel ID="PanelTeacher" runat="server" Visible="False" BorderStyle="Solid">
+        <h3 class="auto-style4"><strong>Create your profile </strong></h3>
         <h3><strong>Teacher Profile</strong></h3>
 &nbsp;<table class="auto-style1">
             <tr>
                 <td>
-                    tt<table>
+                    <table>
                         <tr>
                             <td>
                                 <asp:Panel ID="PanelTutorCreateProfile" runat="server">
@@ -44,7 +60,7 @@
                             <td>
                                 <asp:TextBox ID="TextBoxFName" runat="server" Width="191px"></asp:TextBox>
                             </td>
-                            <td>&nbsp;</td>
+                            <td class="auto-style3">&nbsp;</td>
                         </tr>
                        
                         <tr>
@@ -52,7 +68,18 @@
                             <td>
                                 <asp:TextBox ID="TextBoxLName" runat="server" Width="217px"></asp:TextBox>
                             </td>
-                            <td rowspan="9">&nbsp;</td>
+                            <td rowspan="9" class="auto-style3">
+                                <asp:DetailsView ID="DetailsView1" runat="server" AutoGenerateRows="False" Height="50px" OnModeChanging="DetailsView1_ModeChanging" Width="125px">
+                                    <Fields>
+                                        <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
+                                        <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
+                                        <asp:BoundField DataField="phone" HeaderText="Phone" SortExpression="phone" />
+                                        <asp:BoundField DataField="address" HeaderText="Address" SortExpression="address" />
+                                        <asp:BoundField DataField="Province" HeaderText="Province" SortExpression="Province" />
+                                        <asp:CommandField ShowEditButton="True" />
+                                    </Fields>
+                                </asp:DetailsView>
+                            </td>
                         </tr>
                         <tr>
                             <td>Phone:</td>
@@ -116,6 +143,7 @@
                             <td>
                                 <asp:Button ID="ButtonProfile" runat="server" Text="Create Profile" Width="98px" OnClick="ButtonProfile_Click" />
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Label ID="LabelRole" runat="server" Font-Bold="True" ForeColor="#003300"></asp:Label>
                             </td>
                         </tr>
                     </table>
@@ -129,6 +157,8 @@
                     
                 </td>
                 <td>
+                    <asp:Panel ID="PanelSession" runat="server"> 
+                        <span class="auto-style5"><strong>Create your session&nbsp; </strong></span>
                     <table>
                         <tr>
                             <td>Create Session: </td>
@@ -173,25 +203,17 @@
                             </td>
                         </tr>
                     </table>
+
+                    </asp:Panel>
                 </td>
             </tr>
             <tr>
                 <td>
                     <asp:Panel ID="PanelUpdateTutor" runat="server">
-                        <asp:GridView ID="GridViewUpdateTutor" runat="server" AutoGenerateColumns="False" DataKeyNames="TeacherID" OnRowCancelingEdit="GridViewUpdateTutor_RowCancelingEdit" OnRowEditing="GridViewUpdateTutor_RowEditing" OnRowUpdating="GridViewUpdateTutor_RowUpdating">
-                            <Columns>
-                                <asp:CommandField ShowEditButton="True" />
-                                <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
-                                <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
-                                <asp:BoundField DataField="phone" HeaderText="Phone" SortExpression="phone" />
-                                <asp:BoundField DataField="address" HeaderText="Address" SortExpression="address" />
-                                <asp:BoundField DataField="Province" HeaderText="Province" SortExpression="Province" />
-                            </Columns>
-                        </asp:GridView>
                     </asp:Panel>
                 </td>
                 <td>
-                    <asp:Label ID="Label2" runat="server" Text="Hello"></asp:Label>
+                    <asp:Label ID="Label2" runat="server"></asp:Label>
                     <br />
                     <asp:Label ID="Label11" runat="server"></asp:Label>
                 </td>
@@ -213,7 +235,7 @@
         <h3><strong>Student Profile </strong></h3>
         <table class="auto-style1">
             <tr>
-                <td>
+                <td class="auto-style6">
                     <table>
                         <tr>
                             <td>FirstName:</td>
@@ -273,20 +295,26 @@
                     <table>
                         <tr>
                             <td class="auto-style2">
-                                <asp:Label ID="LabelStudent" runat="server" Text="Label"></asp:Label>
+                                <asp:Label ID="LabelStudent" runat="server" Font-Bold="True" Font-Size="Large" ForeColor="#333300"></asp:Label>
                             </td>
                             <td>
                                 &nbsp;</td>
                         </tr>
                         <tr>
-                            <td class="auto-style2">&nbsp;</td>
+                            <td class="auto-style2">
+                                <asp:DetailsView ID="DetailsViewStu" runat="server" Height="50px" OnModeChanging="DetailsViewStu_ModeChanging" Width="125px">
+                                    <Fields>
+                                        <asp:CommandField ShowEditButton="True" />
+                                    </Fields>
+                                </asp:DetailsView>
+                            </td>
                             <td>&nbsp;</td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="auto-style6">
                     <asp:Button ID="ButtonStudentProfile" runat="server" OnClick="ButtonStudentProfile_Click" Text="Create Profile" Width="132px" />
                 </td>
                 <td>

@@ -10,20 +10,20 @@ using System.Data.SqlClient;
 /// </summary>
 public static class Modify
 {
-    public static bool SaveFile(string subId,int gradeID, string name, int lod, string contentType,
+    public static bool SaveFile( string name, int lod, string contentType,
             int size, byte[] data, int sessID)
     {
         bool y = false;
         SqlConnection c = Connection.connect();
         c.Open();
 
-        string commandText = "INSERT INTO Worksheet(SubjectID, GradeID,WorksheetName,LevelOfDifficulty,dateUploaded,worksheetData,sizeA,worksheetType,BatchID)";
-        commandText +="VALUES(@subID,@gradeID,@Name,@lod,@d,@Data,@size,@ContentType,@sess)";
+        string commandText = "INSERT INTO Worksheet(WorksheetName,LevelOfDifficulty,dateUploaded,worksheetData,sizeA,worksheetType,BatchID)";
+        commandText +="VALUES(@Name,@lod,@d,@Data,@size,@ContentType,@sess)";
 
         SqlCommand cmd = new SqlCommand(commandText, c);
 
-        cmd.Parameters.Add("@subID", SqlDbType.Int).Value = Convert.ToInt32(subId);
-        cmd.Parameters.Add("@gradeID", SqlDbType.Int).Value = gradeID;
+      //  cmd.Parameters.Add("@subID", SqlDbType.Int).Value = Convert.ToInt32(subId);
+       // cmd.Parameters.Add("@gradeID", SqlDbType.Int).Value = gradeID;
         cmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
         cmd.Parameters.Add("@lod", SqlDbType.Int).Value = lod;
         cmd.Parameters.Add("@d", SqlDbType.Date).Value = DateTime.Today.Date;
@@ -45,7 +45,7 @@ public static class Modify
         SqlConnection c = Connection.connect();
         c.Open();
 
-        SqlDataAdapter adapter = new SqlDataAdapter("SELECT WorksheetID, SubjectID, GradeID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData FROM Worksheet", c);
+        SqlDataAdapter adapter = new SqlDataAdapter("SELECT WorksheetID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData FROM Worksheet", c);
 
         adapter.Fill(fileList);
         c.Close();

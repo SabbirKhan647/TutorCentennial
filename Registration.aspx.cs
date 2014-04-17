@@ -14,6 +14,8 @@ public partial class About : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //if (Connection.TeacherID <= 0)
+        //    PanelSession.Visible = false;
       
         if (Context.User.IsInRole("Admin"))
         {
@@ -25,13 +27,21 @@ public partial class About : System.Web.UI.Page
         {
             PanelStudent.Visible = false;
             PanelTeacher.Visible = true;
-            LabelRole.Text = "Tutor Profile";
+          Label12.Text = "Tutor Profile";
+          DetailsView1.DataSource = Connection.GetTeacherDetails(); 
+            DetailsView1.DataBind();
+            //if (Connection.TeacherID == 0)
+            //    PanelSession.Visible = false;
+            //Label12.Text = Connection.TeacherID.ToString();
         }
         else if (value == "stu")
         {
+            DetailsViewStu.Visible = true;
+            DetailsViewStu.DataSource = Connection.GetStudentDetails();
+            DetailsViewStu.DataBind();
             PanelTeacher.Visible = false;
             PanelStudent.Visible = true;
-            LabelRole.Text = "Student Profile";
+          Label12.Text = "Student Profile";
         }
         SqlConnection c;
         Page.Header.DataBind();
@@ -47,8 +57,9 @@ public partial class About : System.Web.UI.Page
             SqlDataAdapter adapt = new SqlDataAdapter();
             adapt.SelectCommand = cmdUpdateTutor; DataTable d = new DataTable();
             adapt.Fill(d);
-            GridViewUpdateTutor.DataSource = d; GridViewUpdateTutor.DataBind();
+            DetailsView1.DataSource = d; DetailsView1.DataBind();
             ct.Close();
+            Connection.TeachID();
         }
         
         
@@ -96,93 +107,101 @@ public partial class About : System.Web.UI.Page
     }
     protected void ButtonBatch_Click(object sender, EventArgs e)
     {
-       // int techerID = 0;
-        //MembershipUser userInfo = Membership.GetUser();
-        //string userid = userInfo.ProviderUserKey.ToString();
+        try
+        {
+            // int techerID = 0;
+            //MembershipUser userInfo = Membership.GetUser();
+            //string userid = userInfo.ProviderUserKey.ToString();
 
-        //SqlConnection c; c = Connection.connect();
-        //c.Open();
-        //SqlCommand cmdd = new SqlCommand("select TeacherID from Teacher where UserId= @userid", c);
-        ////2. Define parameter
-        //SqlParameter param = new SqlParameter();
-        //param.ParameterName = "@userid";
-        //param.Value = userid;
-        //cmdd.Parameters.Add(param);
+            //SqlConnection c; c = Connection.connect();
+            //c.Open();
+            //SqlCommand cmdd = new SqlCommand("select TeacherID from Teacher where UserId= @userid", c);
+            ////2. Define parameter
+            //SqlParameter param = new SqlParameter();
+            //param.ParameterName = "@userid";
+            //param.Value = userid;
+            //cmdd.Parameters.Add(param);
 
-        //SqlDataReader rdr = null;
-        //rdr = cmdd.ExecuteReader();
-        //while (rdr.Read())
-        //{
-        //    techerID = rdr.GetInt32(0);
-        //}
+            //SqlDataReader rdr = null;
+            //rdr = cmdd.ExecuteReader();
+            //while (rdr.Read())
+            //{
+            //    techerID = rdr.GetInt32(0);
+            //}
 
-        //Session["TeacherID"] = techerID;
+            //Session["TeacherID"] = techerID;
 
-        string teacherid = Session["TeacherID"].ToString();
+            string teacherid = Session["TeacherID"].ToString();
 
-        string maxStu = DropDownNoOfStu.SelectedItem.Text;
-       
-       string dateCreated = DateTime.Today.ToString();//DateTime.Parse(clientsidedate).ToShortDateString();
-        //     string dateCreated= DateTime.Now.ToShortDateString();
-        string timeCreated = DateTime.Now.ToShortTimeString();
+            string maxStu = DropDownNoOfStu.SelectedItem.Text;
 
-        string stDate = Calendar1.SelectedDate.ToShortDateString();
-        //if(c!= null)
-        //{
-        //    c.Close();
-        //}
+            string dateCreated = DateTime.Today.ToString();//DateTime.Parse(clientsidedate).ToShortDateString();
+            //     string dateCreated= DateTime.Now.ToShortDateString();
+            string timeCreated = DateTime.Now.ToShortTimeString();
 
-        SqlConnection cc = Connection.connect(); cc.Open();
-        SqlCommand cmd = new SqlCommand("createBatchSP", cc);
-        cmd.CommandType = CommandType.StoredProcedure;
+            string stDate = Calendar1.SelectedDate.ToShortDateString();
+            //if(c!= null)
+            //{
+            //    c.Close();
+            //}
 
-        SqlParameter parm = new SqlParameter("@tid", SqlDbType.Int);
-        parm.Value = Convert.ToInt32(teacherid);
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            SqlConnection cc = Connection.connect(); cc.Open();
+            SqlCommand cmd = new SqlCommand("createBatchSP", cc);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-        parm = new SqlParameter("@d", SqlDbType.Date);
-        parm.Value = DateTime.Parse(dateCreated).Date;
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            SqlParameter parm = new SqlParameter("@tid", SqlDbType.Int);
+            parm.Value = Convert.ToInt32(teacherid);
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        parm = new SqlParameter("@t", SqlDbType.Time);
-        parm.Value = DateTime.Parse(timeCreated).TimeOfDay;
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            parm = new SqlParameter("@d", SqlDbType.Date);
+            parm.Value = DateTime.Parse(dateCreated).Date;
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        parm = new SqlParameter("@sid", SqlDbType.Int);
-        parm.Value = DropDownListSubject.SelectedValue;
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            parm = new SqlParameter("@t", SqlDbType.Time);
+            parm.Value = DateTime.Parse(timeCreated).TimeOfDay;
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        parm = new SqlParameter("@gid", SqlDbType.Int);
-        parm.Value = DropDownListGrade.SelectedValue;
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            parm = new SqlParameter("@sid", SqlDbType.Int);
+            parm.Value = DropDownListSubject.SelectedValue;
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        parm = new SqlParameter("@ms", SqlDbType.Int);
-        parm.Value = Convert.ToDouble(maxStu);
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            parm = new SqlParameter("@gid", SqlDbType.Int);
+            parm.Value = DropDownListGrade.SelectedValue;
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        parm = new SqlParameter("@sd", SqlDbType.Date);
-        parm.Value = DateTime.Parse(stDate).Date;
-        parm.Direction = ParameterDirection.Input;
-        cmd.Parameters.Add(parm);
+            parm = new SqlParameter("@ms", SqlDbType.Int);
+            parm.Value = Convert.ToDouble(maxStu);
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        cmd.Parameters.Add("@BName", SqlDbType.VarChar, 50);
-        cmd.Parameters["@BName"].Direction = ParameterDirection.Output;
-        
-        cmd.ExecuteNonQuery();
+            parm = new SqlParameter("@sd", SqlDbType.Date);
+            parm.Value = DateTime.Parse(stDate).Date;
+            parm.Direction = ParameterDirection.Input;
+            cmd.Parameters.Add(parm);
 
-        Label2.Text = "Session has been created successfully.";
-        Label11.Text = "The Batch Name is: " + cmd.Parameters["@BName"].Value.ToString();
-        Label2.Visible = true;
-        Label11.Visible = true;
-        if (cc != null)
-        { cc.Close(); }
-        Response.Redirect("InsertSessionDetails.aspx");
+            cmd.Parameters.Add("@BName", SqlDbType.VarChar, 50);
+            cmd.Parameters["@BName"].Direction = ParameterDirection.Output;
+
+            cmd.ExecuteNonQuery();
+
+            Label2.Text = "Session has been created successfully.";
+            Label11.Text = "The Batch Name is: " + cmd.Parameters["@BName"].Value.ToString();
+            Label2.Visible = true;
+            Label11.Visible = true;
+            if (cc != null)
+            { cc.Close(); }
+            Response.Redirect("InsertSessionDetails.aspx");
+        }
+        catch (SqlException ex)
+        {
+            if (ex.Number == 547)
+                LabelRole.Text = "Create Profile First";
+        }
     }
     protected void ButtonProfile_Click(object sender, EventArgs e)
     {
@@ -215,11 +234,13 @@ public partial class About : System.Web.UI.Page
             // cmd.Parameters.Add("@pro", SqlDbType.Text).Value = TextBoxOthers.Text;
             //  Guid userGuid = (Guid)Membership.GetUser().ProviderUserKey;
             cmd.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
-            Label2.Text = s;
+           // Label2.Text = s;
             if (cmd.ExecuteNonQuery() == 1)
             {
                 LabelRole.Text = "Insert successful";
-
+                Connection.TeachID();
+               // Response.Redirect("Registration.aspx?val=tute");
+                GridBind();
             }
             // LabelRole.Text = s;
             if (c != null)
@@ -228,7 +249,7 @@ public partial class About : System.Web.UI.Page
         catch (SqlException ex)
         {
             if (ex.Number == 2627)
-                LabelRole.Text = "The profile aleary Created";
+                LabelRole.Text =  "The profile aleary Created";
         }
     }
     protected void ButtonSession_Click(object sender, EventArgs e)
@@ -237,32 +258,43 @@ public partial class About : System.Web.UI.Page
     }
     protected void ButtonStudentProfile_Click(object sender, EventArgs e)
     {
-        Session["username"] = Membership.GetUser().UserName;
-        SqlConnection con = Connection.connect(); con.Open();
-        SqlCommand cmdd = new SqlCommand("select UserId from aspnet_Users where UserName = '" + Session["username"] + "'", con);
-        SqlDataReader rr = cmdd.ExecuteReader();
-        string s = "";
-        if (rr.Read())
-            s = rr[0].ToString();
-        rr.Close();
-        con.Close();
-        SqlConnection c = Connection.connect();
-        c.Open();
-        SqlCommand cmd = new SqlCommand("createStudentProfile", c);
-        cmd.CommandType = CommandType.StoredProcedure;
-        cmd.Parameters.Add("@f", SqlDbType.VarChar).Value = TextBoxFName0.Text;
-        cmd.Parameters.Add("@l", SqlDbType.VarChar).Value = TextBoxLName0.Text;
-        cmd.Parameters.Add("@pc", SqlDbType.VarChar).Value = TextBoxPCStu.Text;
-        cmd.Parameters.Add("@p", SqlDbType.VarChar).Value = TextBoxPhone0.Text;
-        cmd.Parameters.Add("@pro", SqlDbType.VarChar).Value = DropDownProvince0.SelectedItem.ToString();
-        cmd.Parameters.Add("@add", SqlDbType.VarChar).Value = TextBoxAddress0.Text;
-        cmd.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
-       
-        Label2.Text = s;
-        if (cmd.ExecuteNonQuery() == 1)
+        try
         {
-            LabelStudent.Text = "Insert successful";
+            Session["username"] = Membership.GetUser().UserName;
+            SqlConnection con = Connection.connect(); con.Open();
+            SqlCommand cmdd = new SqlCommand("select UserId from aspnet_Users where UserName = '" + Session["username"] + "'", con);
+            SqlDataReader rr = cmdd.ExecuteReader();
+            string s = "";
+            if (rr.Read())
+                s = rr[0].ToString();
+            rr.Close();
+            con.Close();
+            SqlConnection c = Connection.connect();
+            c.Open();
+            SqlCommand cmd = new SqlCommand("createStudentProfile", c);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@f", SqlDbType.VarChar).Value = TextBoxFName0.Text;
+            cmd.Parameters.Add("@l", SqlDbType.VarChar).Value = TextBoxLName0.Text;
+            cmd.Parameters.Add("@pc", SqlDbType.VarChar).Value = TextBoxPCStu.Text;
+            cmd.Parameters.Add("@p", SqlDbType.VarChar).Value = TextBoxPhone0.Text;
+            cmd.Parameters.Add("@pro", SqlDbType.VarChar).Value = DropDownProvince0.SelectedItem.ToString();
+            cmd.Parameters.Add("@add", SqlDbType.VarChar).Value = TextBoxAddress0.Text;
+            cmd.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
 
+            // Label2.Text = s;
+            if (cmd.ExecuteNonQuery() == 1)
+            {
+                LabelStudent.Text = "Insert successful";
+                Connection.StudID();
+                DetailsViewStu.Visible = true;
+                DetailsViewStu.DataSource = Connection.GetStudentDetails();
+                DetailsViewStu.DataBind();
+            }
+        }
+        catch (SqlException ex)
+        {
+            if (ex.Number == 2627)
+                LabelStudent.Text ="The profile aleary Created";
         }
     }
     protected void TextBoxEmail_TextChanged(object sender, EventArgs e)
@@ -279,66 +311,76 @@ public partial class About : System.Web.UI.Page
         return Regex.IsMatch(value, @"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
     }
     
-    protected void GridViewUpdateTutor_RowEditing(object sender, GridViewEditEventArgs e)
-    {
-        GridViewUpdateTutor.EditIndex = e.NewEditIndex;
-        GridBind();
+    //protected void GridViewUpdateTutor_RowEditing(object sender, GridViewEditEventArgs e)
+    //{
+    //    GridViewUpdateTutor.EditIndex = e.NewEditIndex;
+    //    GridBind();
        
-    }
+    //}
 
     private void GridBind()
     {
         SqlConnection c = Connection.connect(); c.Open();
         SqlCommand cmd = new SqlCommand("TeacherDetails", c);
         cmd.CommandType = CommandType.StoredProcedure;
-        cmd.Parameters.Add("@t", SqlDbType.Int).Value = Session["TeacherID"];
+        cmd.Parameters.Add("@t", SqlDbType.Int).Value = Connection.TeacherID;
         SqlDataAdapter adapt = new SqlDataAdapter();
         adapt.SelectCommand = cmd;
         DataTable d = new DataTable();
         adapt.Fill(d);
-        GridViewUpdateTutor.Visible = true;
-        GridViewUpdateTutor.DataSource = d;
-        GridViewUpdateTutor.DataBind();
+        DetailsView1.Visible = true;
+        DetailsView1.DataSource = d;
+        DetailsView1.DataBind();
         c.Close();
-        
-    }
-    protected void GridViewUpdateTutor_RowUpdating(object sender, GridViewUpdateEventArgs e)
-    {
-       // LabelRole.Text = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
-        string pt = GridViewUpdateTutor.DataKeys[e.RowIndex].Value.ToString();
-        //string pt = ((Label)GridViewPtDemo.Rows[e.RowIndex].Cells[0].Controls[0]).Text;
-        string fn = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[1].Controls[0]).Text;
-        string ln = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
-        string ph = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[3].Controls[0]).Text;
-        string ad = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
-        string pro = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[5].Controls[0]).Text;
-       // string dt = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[7].Controls[0]).Text;
-        // string description = ((TextBox)GridViewPtDemo.Rows[e.RowIndex].FindControl("descriptionTextBox")).Text;
-        // Execute the update command
-      //  DateTime d = DateTime.Parse(dt);
-        SqlConnection c = Connection.connect(); c.Open();
-        SqlCommand cmd = new SqlCommand("UpdateTutor", c);
-        cmd.CommandType = CommandType.StoredProcedure;
-
-        cmd.Parameters.Add("@t", SqlDbType.Int).Value = pt;
-        cmd.Parameters.Add("@fn", SqlDbType.VarChar).Value = fn;
-        cmd.Parameters.Add("@ln", SqlDbType.VarChar).Value = ln;
-        cmd.Parameters.Add("@ph", SqlDbType.VarChar).Value = ph;
-        cmd.Parameters.Add("@add", SqlDbType.VarChar).Value = ad;
-        cmd.Parameters.Add("@pro", SqlDbType.Char).Value = pro;
-       // cmd.Parameters.Add("@dob", SqlDbType.Date).Value = d;
-
-        if (cmd.ExecuteNonQuery() == 1)
-            LabelRole.Text = "Update Successfull";
-        if (c != null)
-            c.Close();
-        GridViewUpdateTutor.EditIndex = -1;
-        GridBind();
 
     }
-    protected void GridViewUpdateTutor_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    //protected void GridViewUpdateTutor_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    //{
+    //   // LabelRole.Text = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
+    //    string t = GridViewUpdateTutor.DataKeys[e.RowIndex].Value.ToString();
+    //    //string pt = ((Label)GridViewPtDemo.Rows[e.RowIndex].Cells[0].Controls[0]).Text;
+    //    string fn = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[2].Controls[0]).Text;
+    //    string ln = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[3].Controls[0]).Text;
+    //    string ph = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[4].Controls[0]).Text;
+    //    string ad = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[5].Controls[0]).Text;
+    //    string pro = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[6].Controls[0]).Text;
+    //   // string dt = ((TextBox)GridViewUpdateTutor.Rows[e.RowIndex].Cells[7].Controls[0]).Text;
+    //    // string description = ((TextBox)GridViewPtDemo.Rows[e.RowIndex].FindControl("descriptionTextBox")).Text;
+    //    // Execute the update command
+    //  //  DateTime d = DateTime.Parse(dt);
+    //    SqlConnection c = Connection.connect(); c.Open();
+    //    SqlCommand cmd = new SqlCommand("UpdateTutor", c);
+    //    cmd.CommandType = CommandType.StoredProcedure;
+
+    //    cmd.Parameters.Add("@t", SqlDbType.Int).Value = t;
+    //    cmd.Parameters.Add("@fn", SqlDbType.VarChar).Value = fn;
+    //    cmd.Parameters.Add("@ln", SqlDbType.VarChar).Value = ln;
+    //    cmd.Parameters.Add("@ph", SqlDbType.VarChar).Value = ph;
+    //    cmd.Parameters.Add("@add", SqlDbType.VarChar).Value = ad;
+    //    cmd.Parameters.Add("@pro", SqlDbType.Char).Value = pro;
+    //   // cmd.Parameters.Add("@dob", SqlDbType.Date).Value = d;
+
+    //    if (cmd.ExecuteNonQuery() == 1)
+    //        LabelRole.Text = "Update Successfull";
+    //    if (c != null)
+    //        c.Close();
+    //    GridViewUpdateTutor.EditIndex = -1;
+    //    GridBind();
+
+    //}
+    //protected void GridViewUpdateTutor_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+    //{
+    //    GridViewUpdateTutor.EditIndex = -1;
+    //    GridBind();
+    //}
+
+    
+    protected void DetailsViewStu_ModeChanging(object sender, DetailsViewModeEventArgs e)
     {
-        GridViewUpdateTutor.EditIndex = -1;
-        GridBind();
+           LabelStudent.Text = "Editing is under construction";
+    }
+    protected void DetailsView1_ModeChanging(object sender, DetailsViewModeEventArgs e)
+    {
+        LabelRole.Text = "Editing, updating is under construction";
     }
 }

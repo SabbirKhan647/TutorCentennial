@@ -36,6 +36,8 @@ public partial class Account_Login : System.Web.UI.Page
             }
 
             Session["TeacherID"] = techerID;
+            Connection.TeacherID = techerID;
+            
         }
         else if (Context.User.IsInRole("Student"))
         {

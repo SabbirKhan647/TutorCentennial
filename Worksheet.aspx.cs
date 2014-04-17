@@ -29,21 +29,25 @@ public partial class Worksheet : System.Web.UI.Page
             c = Connection.connect();
 
             c.Open();
-            SqlDataAdapter Adapter = new SqlDataAdapter("select SubjectID,SubName from Subject", c);
+            //SqlDataAdapter Adapter = new SqlDataAdapter("select SubjectID,SubName from Subject", c);
+            //DataTable d = new DataTable(); Adapter.Fill(d);
+            //DropDownListSub.DataSource = d; DropDownListSub.DataTextField = "SubName"; DropDownListSub.DataValueField = "SubjectID";
+            //DropDownListSub.DataBind();
+
+            //Adapter = new SqlDataAdapter("select GradeID from Grade", c);
+            //d = new DataTable(); Adapter.Fill(d);
+            //DropDownListGrade.DataSource = d; DropDownListGrade.DataTextField = "GradeID"; DropDownListGrade.DataValueField = "GradeID";
+            //DropDownListGrade.DataBind();
+        
+            SqlDataAdapter Adapter = new SqlDataAdapter("select BatchID,BatchName from Batch where TeacherID = "+ Session["TeacherID"].ToString(), c);
             DataTable d = new DataTable(); Adapter.Fill(d);
-            DropDownListSub.DataSource = d; DropDownListSub.DataTextField = "SubName"; DropDownListSub.DataValueField = "SubjectID";
-            DropDownListSub.DataBind();
-
-            Adapter = new SqlDataAdapter("select GradeID from Grade", c);
-            d = new DataTable(); Adapter.Fill(d);
-            DropDownListGrade.DataSource = d; DropDownListGrade.DataTextField = "GradeID"; DropDownListGrade.DataValueField = "GradeID";
-            DropDownListGrade.DataBind();
-
-            
+            DropDownListSession.DataSource = d; DropDownListSession.DataTextField = "BatchName"; DropDownListSession.DataValueField = "BatchID";
+            DropDownListSession.DataBind();
             if (c != null)
             {
                 c.Close();
             }
+            
            
        }
         if (Context.User.IsInRole("Student"))
@@ -72,85 +76,96 @@ public partial class Worksheet : System.Web.UI.Page
     }
     protected void ButtonUpload_Click(object sender, EventArgs e)
     {
-        // Read the file and convert it to Byte Array
-        string filePath = FileUpload1.PostedFile.FileName;
-        string filename = Path.GetFileName(filePath);
-        string ext = Path.GetExtension(filename);
-        string contenttype = String.Empty;
-        int size = FileUpload1.PostedFile.ContentLength;
 
-        //Set the contenttype based on File Extension
-        switch (ext)
+
+        try
         {
-            case ".doc":
-                contenttype = "application/vnd.ms-word";
-                break;
-            case ".docx":
-                contenttype = "application/vnd.ms-word";
-                break;
-            case ".xls":
-                contenttype = "application/vnd.ms-excel";
-                break;
-            case ".xlsx":
-                contenttype = "application/vnd.ms-excel";
-                break;
-            case ".jpg":
-                contenttype = "image/jpg";
-                break;
-            case ".png":
-                contenttype = "image/png";
-                break;
-            case ".gif":
-                contenttype = "image/gif";
-                break;
-            case ".pdf":
-                contenttype = "application/pdf";
-                break;
-        }
-        if (contenttype != String.Empty)
-        {
-            //FileStream fs = (FileStream)FileUpload1.PostedFile.InputStream;
-            Stream fs = FileUpload1.PostedFile.InputStream;
-            //BinaryReader br = new BinaryReader(fs);
-            //Byte[] bytes = br.ReadBytes((Int32)fs.Length);
-
-            MemoryStream ms = new MemoryStream();
-            fs.CopyTo(ms);
-            byte[] result = ms.GetBuffer();
-            byte[] justdata = new byte[ms.Length];
-            Array.Copy(result, justdata, ms.Length);
-
-            string subID = DropDownListSub.SelectedValue;
-            int gradeID = Convert.ToInt32(DropDownListGrade.SelectedValue);
-            int lod = Convert.ToInt32(DropDownListLOD.SelectedValue);
-            int sessionID = Convert.ToInt32(DropDownListSession.SelectedValue);
-            if (Modify.SaveFile(subID, gradeID,filename,lod, contenttype, size, justdata,sessionID) == true)
+            // Read the file and convert it to Byte Array
+            string filePath = FileUpload1.PostedFile.FileName;
+            string filename = Path.GetFileName(filePath);
+            string ext = Path.GetExtension(filename);
+            string contenttype = String.Empty;
+            int size = FileUpload1.PostedFile.ContentLength;
+            int sessionID = 0;
+            //Set the contenttype based on File Extension
+            switch (ext)
             {
-                lblMessage.ForeColor = System.Drawing.Color.Green;
-                lblMessage.Text = "File Uploaded Successfully";
+                case ".doc":
+                    contenttype = "application/vnd.ms-word";
+                    break;
+                case ".docx":
+                    contenttype = "application/vnd.ms-word";
+                    break;
+                case ".xls":
+                    contenttype = "application/vnd.ms-excel";
+                    break;
+                case ".xlsx":
+                    contenttype = "application/vnd.ms-excel";
+                    break;
+                case ".jpg":
+                    contenttype = "image/jpg";
+                    break;
+                case ".png":
+                    contenttype = "image/png";
+                    break;
+                case ".gif":
+                    contenttype = "image/gif";
+                    break;
+                case ".pdf":
+                    contenttype = "application/pdf";
+                    break;
             }
-            
-        }
-        else
+            if (contenttype != String.Empty)
+            {
+                //FileStream fs = (FileStream)FileUpload1.PostedFile.InputStream;
+                Stream fs = FileUpload1.PostedFile.InputStream;
+                //BinaryReader br = new BinaryReader(fs);
+                //Byte[] bytes = br.ReadBytes((Int32)fs.Length);
+
+                MemoryStream ms = new MemoryStream();
+                fs.CopyTo(ms);
+                byte[] result = ms.GetBuffer();
+                byte[] justdata = new byte[ms.Length];
+                Array.Copy(result, justdata, ms.Length);
+
+                // string subID = DropDownListSub.SelectedValue;
+                // int gradeID = Convert.ToInt32(DropDownListGrade.SelectedValue);
+                int lod = Convert.ToInt32(DropDownListLOD.SelectedValue);
+                sessionID = Convert.ToInt32(DropDownListSession.SelectedValue);
+                if (Modify.SaveFile(filename, lod, contenttype, size, justdata, sessionID) == true)
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                    lblMessage.Text = "File Uploaded Successfully";
+                }
+
+            }
+            else
             {
                 lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Text = "File format not recognised." +
                   " Upload Image/Word/PDF/Excel formats";
             }
 
-        c = Connection.connect();
-        c.Open();
-        string cmdText = "SELECT WorksheetID, SubjectID, GradeID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where SubjectID = ";
-        cmdText += DropDownListSub.SelectedValue + " and GradeID = " + DropDownListGrade.SelectedValue + " and LevelOfDifficulty = " + DropDownListLOD.SelectedValue;
-        SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
-        DataTable dd = new DataTable();
-        adapt.Fill(dd);
-        GridViewWorksheet.DataSource = dd;
-        GridViewWorksheet.DataBind();
-        GridViewWorksheet.Visible = true;
-        if (c != null)
+            c = Connection.connect();
+            c.Open();
+            string cmdText = "SELECT WorksheetID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where BatchID = " + sessionID.ToString();
+
+            SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
+            DataTable dd = new DataTable();
+            adapt.Fill(dd);
+            GridViewWorksheet.DataSource = dd;
+            GridViewWorksheet.DataBind();
+            GridViewWorksheet.Visible = true;
+            if (c != null)
+            {
+                c.Close();
+            }
+        }
+        catch (Exception)
         {
-            c.Close();
+                lblMessage.Text = "Please create session first, hit the profile button if session not visible create profile first ";
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            
         }
     }
     protected void Button1_Click(object sender, EventArgs e)
@@ -173,8 +188,8 @@ public partial class Worksheet : System.Web.UI.Page
 
         c = Connection.connect();
         c.Open();
-        string cmdText = "SELECT WorksheetID, SubjectID, GradeID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where SubjectID = ";
-        cmdText += DropDownListSub.SelectedValue + " and GradeID = " + DropDownListGrade.SelectedValue + " and LevelOfDifficulty = " + DropDownListLOD.SelectedValue;
+        string cmdText = "SELECT WorksheetID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where BatchID = "+ DropDownListSession.SelectedValue;
+       
         SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
         DataTable dd = new DataTable();
         adapt.Fill(dd);
@@ -204,39 +219,13 @@ public partial class Worksheet : System.Web.UI.Page
         Response.Flush();
         Response.End();
     }
-    protected void DropDownListSub_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        LabelSession.Visible = true;
-        DropDownListSession.Visible = true;
-        c = Connection.connect();
-            c.Open();
-            SqlDataAdapter Adapter = new SqlDataAdapter("select BatchID,BatchName from Batch where SubjectID = "+DropDownListSub.SelectedValue , c);
-            DataTable d = new DataTable(); Adapter.Fill(d);
-            DropDownListSession.DataSource = d; DropDownListSession.DataTextField = "BatchName"; DropDownListSession.DataValueField = "BatchID";
-            DropDownListSession.DataBind();
-            if (c != null)
-            {
-                c.Close();
-            }
-    }
-    protected void DropDownListGrade_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        c = Connection.connect();
-        c.Open();
-        SqlDataAdapter Adapter = new SqlDataAdapter("select BatchID,BatchName from Batch where SubjectID = " + DropDownListSub.SelectedValue+ " and GradeID = "+DropDownListGrade.SelectedItem.ToString(), c);
-        DataTable d = new DataTable(); Adapter.Fill(d);
-        DropDownListSession.DataSource = d; DropDownListSession.DataTextField = "BatchName"; DropDownListSession.DataValueField = "BatchID";
-        DropDownListSession.DataBind();
-        if (c != null)
-        {
-            c.Close();
-        }
-    }
+    
+    
     protected void ButtonShowStudent_Click(object sender, EventArgs e)
     {
         c = Connection.connect();
         c.Open();
-        string cmdText = "SELECT WorksheetID, SubjectID, GradeID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where BatchID = "+DropDownListSessionStu.SelectedValue;
+        string cmdText = "SELECT WorksheetID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where BatchID = "+DropDownListSessionStu.SelectedValue;
         SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
         DataTable dd = new DataTable();
         adapt.Fill(dd);

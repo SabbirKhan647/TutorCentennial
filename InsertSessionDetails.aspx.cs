@@ -24,8 +24,8 @@ public partial class InsertSessionDetails : System.Web.UI.Page
                 i = i + 29;
             }
             //get previous page data
-            int teacherid = Convert.ToInt32(Session["TeacherID"]);
-            Label1.Text = teacherid.ToString();
+            int teacherid = Connection.TeacherID;
+           // Label1.Text = teacherid.ToString();
             // int  gid = Convert.ToInt32 (Session["gradeid"]);
             //int sid = Convert.ToInt32 (Session["subid"]);
 
@@ -48,7 +48,10 @@ public partial class InsertSessionDetails : System.Web.UI.Page
             if (cc != null)
             {
                 cc.Close();
-            } 
+            }
+
+            GridViewSession.DataSource = Connection.GetSessionDetails();
+            GridViewSession.DataBind();
         }
     }
     protected void ButtonInsert_Click(object sender, EventArgs e)
@@ -72,6 +75,8 @@ public partial class InsertSessionDetails : System.Web.UI.Page
             {
                 Connection.InsertBatchDetails(batchid, day, sttime1, endtime1, duration);
                 Label1.Text = "Insert successful";
+                GridViewSession.DataSource = Connection.GetSessionDetails();
+                GridViewSession.DataBind();
             }
             else
             {
@@ -84,9 +89,15 @@ public partial class InsertSessionDetails : System.Web.UI.Page
             if (ex.Number == 2627)
             {
                 Label1.Text = "You are already registered a session in this Day; The session cannot be more than once in a day";
-               // Label2.Text = Connection.StudentID.ToString();
-               
+                // Label2.Text = Connection.StudentID.ToString();
+
             }
+            // else
+           
+        }
+        catch (Exception ex)
+        {
+            Label1.Text = "Create Profile first then create session, then choose the day";
         }
     }
     protected string TimeConflict()
@@ -121,5 +132,20 @@ public partial class InsertSessionDetails : System.Web.UI.Page
             }
         }
         return a;
+    }
+    protected void GridViewSession_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int id = Convert.ToInt32(GridViewSession.DataKeys[GridViewSession.SelectedIndex].Value);
+        SqlConnection c = Connection.connect();
+        c.Open();
+        SqlCommand cmd = new SqlCommand("BatchDayDetails", c);
+        cmd.CommandType = CommandType.StoredProcedure;
+        cmd.Parameters.Add("@b", SqlDbType.Int).Value = id;
+        SqlDataAdapter ad = new SqlDataAdapter(); DataTable d = new DataTable();
+        ad.SelectCommand = cmd;
+        ad.Fill(d);
+        GridViewSessionDay.DataSource = d;
+        GridViewSessionDay.DataBind();
+
     }
 }

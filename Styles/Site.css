@@ -115,11 +115,11 @@ first child of the left and right table columns */
     font-size: 2em;
 }
 
-.main
-{
+.main {
     padding: 0px 12px;
     margin: 12px 8px 8px 8px;
     min-height: 420px;
+    background-color: #CCCCCC;
 }
 
 .leftCol

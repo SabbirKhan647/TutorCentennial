@@ -13,11 +13,12 @@ public static class Connection
 {
     public static SqlConnection connect()
     {
-        SqlConnection con = new SqlConnection("Data Source=SABBIR\\SQLSERVER2012;Initial Catalog=TutorCentennial;Integrated Security=True");
+        SqlConnection con = new SqlConnection("Data Source=Home\\SQLSERVER2012;Initial Catalog=TutorCentennial;Integrated Security=True");
         return con;
     }
 
     public static int StudentID { get; set; }
+    public static int TeacherID { get; set; }
     public static string RoleName { get; set; }
         public static string SecondTry { get; set; }  
     //Yes    
@@ -42,5 +43,95 @@ public static class Connection
                 c.Close();
             }
 
+        }
+
+        public static void StudID()
+        {
+            int stuID = 0;
+            MembershipUser userInfo = Membership.GetUser();
+            string userid = userInfo.ProviderUserKey.ToString();
+            SqlConnection c; c = Connection.connect();
+            c.Open();
+            SqlCommand cmdd = new SqlCommand("select StudentID from Student where UserId= @userid", c);
+            //2. Define parameter
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@userid";
+            param.Value = userid;
+            cmdd.Parameters.Add(param);
+
+            SqlDataReader rdr = null;
+            rdr = cmdd.ExecuteReader();
+            while (rdr.Read())
+            {
+                stuID = rdr.GetInt32(0);
+            }
+            rdr.Close();
+            if (c != null)
+                c.Close();
+            Connection.StudentID = stuID;
+        }
+        public static void TeachID()
+        {
+            int techerID = 0;
+            MembershipUser userInfo = Membership.GetUser();
+            string userid = userInfo.ProviderUserKey.ToString();
+
+            SqlConnection c; c = Connection.connect();
+            c.Open();
+            SqlCommand cmdd = new SqlCommand("select TeacherID from Teacher where UserId= @userid", c);
+            //2. Define parameter
+            SqlParameter param = new SqlParameter();
+            param.ParameterName = "@userid";
+            param.Value = userid;
+            cmdd.Parameters.Add(param);
+
+            SqlDataReader rdr = null;
+            rdr = cmdd.ExecuteReader();
+            while (rdr.Read())
+            {
+                techerID = rdr.GetInt32(0);
+            }
+            rdr.Close();
+            if (c != null)
+                c.Close();
+            Connection.TeacherID = techerID;
+        }
+        public static DataTable GetSessionDetails()
+        {
+            SqlConnection c = Connection.connect();
+            c.Open();
+            SqlCommand cmd = new SqlCommand("SessionDetailsView", c);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@t", SqlDbType.Int).Value = Connection.TeacherID;
+            DataTable d = new DataTable();
+            SqlDataAdapter adapt = new SqlDataAdapter();
+            adapt.SelectCommand = cmd;
+            adapt.Fill(d);
+            return d;
+        }
+        public static DataTable GetStudentDetails()
+        {
+            SqlConnection c = Connection.connect();
+            c.Open();
+            SqlCommand cmd = new SqlCommand("ViewStudentDetail", c);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add("@s", SqlDbType.Int).Value = Connection.StudentID;
+            DataTable d = new DataTable();
+            SqlDataAdapter adapt = new SqlDataAdapter();
+            adapt.SelectCommand = cmd;
+            adapt.Fill(d);
+            return d;
+        }
+        public static DataTable GetTeacherDetails()
+        {
+            SqlConnection ct = Connection.connect();
+            ct.Open();
+            SqlCommand cmdUpdateTutor = new SqlCommand("TeacherDetails", ct);
+            cmdUpdateTutor.CommandType = CommandType.StoredProcedure;
+            cmdUpdateTutor.Parameters.Add("@t", SqlDbType.Int).Value = Connection.TeacherID;
+            SqlDataAdapter adapt = new SqlDataAdapter();
+            adapt.SelectCommand = cmdUpdateTutor; DataTable d = new DataTable();
+            adapt.Fill(d);
+            return d;
         }
 }

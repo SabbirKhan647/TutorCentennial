@@ -17,12 +17,11 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
-  <div style="overflow: auto; width: 900px; height: auto">  
-&nbsp;&nbsp;
+    <div style="overflow: auto; width: 900px; height: auto">  
         &nbsp;<asp:Panel ID="PanelUpDownload" style="overflow: auto; width: 850px; height: auto" runat="server" BorderStyle="Ridge" Visible="False">
             <h3>Panel For Tutor</h3>
             <br />
-&nbsp;<asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Upload" Width="176px" />
+            To upload any document(Worksheets, Handouts, Assignmnets, press the Upload Button)<br /> To download any douments choose the Session first as all documnets related to session<br />&nbsp;&nbsp;<asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Upload" Width="176px" />
             <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="Download" Width="177px" />
             <br />
             <br />
@@ -45,23 +44,9 @@
                                 <td class="auto-style4">&nbsp;</td>
                             </tr>
                             <tr>
-                                <td>Choose Subject:
-                                    <asp:DropDownList ID="DropDownListSub" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownListSub_SelectedIndexChanged">
-                                    </asp:DropDownList>
-                                </td>
-                                <td class="auto-style4">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>Choose&nbsp; Grade:&nbsp;
-                                    <asp:DropDownList ID="DropDownListGrade" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownListGrade_SelectedIndexChanged">
-                                    </asp:DropDownList>
-                                </td>
-                                <td class="auto-style4">&nbsp;</td>
-                            </tr>
-                            <tr>
                                 <td>
                                     <asp:Label ID="LabelSession" runat="server" Text="Choose Session:"></asp:Label>
-                                    &nbsp;<asp:DropDownList ID="DropDownListSession" runat="server">
+                                    <asp:DropDownList ID="DropDownListSession" runat="server">
                                     </asp:DropDownList>
                                 </td>
                                 <td class="auto-style4">&nbsp;</td>
@@ -79,6 +64,11 @@
                                 <td class="auto-style4">&nbsp;</td>
                             </tr>
                             <tr>
+                                <td>
+                                    &nbsp;</td>
+                                <td class="auto-style4">&nbsp;</td>
+                            </tr>
+                            <tr>
                                 <td>&nbsp;</td>
                                 <td class="auto-style4">&nbsp;</td>
                             </tr>
@@ -89,6 +79,12 @@
                                 <td class="auto-style4">
                                     <asp:Button ID="ButtonUpload" runat="server" OnClick="ButtonUpload_Click" Text="Upload" Visible="False" Width="97px" />
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp;</td>
+                                <td class="auto-style4">
+                                    &nbsp;</td>
                             </tr>
                         </table>
                     </td>
@@ -117,12 +113,14 @@
         <asp:Panel ID="PanelWorksheetStudent" style="overflow: auto; width: 850px; height: auto" runat="server" Visible="False" BorderStyle="Ridge">
             <h3><strong>Panel for Student </strong></h3>
             <br />
+            To download any douments choose the Session first as all documnets related to session<br />
+            <br />
             Select Session:
             <asp:DropDownList ID="DropDownListSessionStu" runat="server" OnSelectedIndexChanged="DropDownListSessionStu_SelectedIndexChanged">
             </asp:DropDownList>
             <br />
             <br />
-            <asp:Button ID="ButtonShowStudent" runat="server" OnClick="ButtonShowStudent_Click" Text="Button" Width="148px" />
+            <asp:Button ID="ButtonShowStudent" runat="server" OnClick="ButtonShowStudent_Click" Text="Show" Width="148px" />
             <br />
             <asp:GridView ID="GridViewStuDown" runat="server">
                 <Columns>

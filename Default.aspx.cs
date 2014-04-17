@@ -16,9 +16,15 @@ public partial class _Default : System.Web.UI.Page
     {
         string panel = Request.QueryString["pan"];
         if (panel == "t")
+        { 
             PanelChoose.Visible = true;
+            PanelDes.Visible = false;
+           // PanelTutorCongrate.Visible = true;
+        }
+        
         if (Context.User.IsInRole("Student"))
         {
+            PanelConStu.Visible = true;
             int stuID = 0;
             MembershipUser userInfo = Membership.GetUser();
             string userid = userInfo.ProviderUserKey.ToString();
@@ -41,9 +47,11 @@ public partial class _Default : System.Web.UI.Page
 
             Session["StudentID"] = stuID;
             Connection.StudentID = stuID;
+            PanelDes.Visible = false;
         }
         if (Context.User.IsInRole("Tutor"))
         {
+            PanelTutorCongrate.Visible = true;
             int techerID = 0;
             MembershipUser userInfo = Membership.GetUser();
             string userid = userInfo.ProviderUserKey.ToString();
@@ -64,6 +72,7 @@ public partial class _Default : System.Web.UI.Page
                 techerID = rdr.GetInt32(0);
             }
             Session["TeacherID"] = techerID;
+            
             rdr.Close();
             if (c != null)
                 c.Close();
@@ -77,17 +86,17 @@ public partial class _Default : System.Web.UI.Page
                 s = rr[0].ToString();
             rr.Close();
             con.Close();
-            
-            SqlConnection gmap = Connection.connect();
-            gmap.Open();
-            SqlCommand cmdgmap = new SqlCommand("FullAddress", gmap);
-            cmdgmap.CommandType = CommandType.StoredProcedure;
-            cmdgmap.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
-            SqlDataReader rGmap = cmdgmap.ExecuteReader();
-            if (rGmap.Read())
-            {
+            PanelDes.Visible = false;
+            //SqlConnection gmap = Connection.connect();
+            //gmap.Open();
+            //SqlCommand cmdgmap = new SqlCommand("FullAddress", gmap);
+            //cmdgmap.CommandType = CommandType.StoredProcedure;
+            //cmdgmap.Parameters.Add("@u", SqlDbType.VarChar).Value = s;
+            //SqlDataReader rGmap = cmdgmap.ExecuteReader();
+            //if (rGmap.Read())
+            //{
 
-            }
+            //}
            
         }
     }
@@ -96,12 +105,14 @@ public partial class _Default : System.Web.UI.Page
         if (DropDownList1.SelectedValue == "Tutor")
         {
             Roles.AddUserToRole(HttpContext.Current.User.Identity.Name, "Tutor");
-            Response.Redirect("Registration.aspx?val=tute");
+           // Response.Redirect("Registration.aspx?val=tute");
+            Response.Redirect("Default.aspx");
         }
         if (DropDownList1.SelectedValue == "Student")
         { 
             Roles.AddUserToRole(HttpContext.Current.User.Identity.Name, "Student");
-            Response.Redirect("Registration.aspx?val=stu");
+          // Response.Redirect("Registration.aspx?val=stu");
+            Response.Redirect("Default.aspx");
         }
     }
    

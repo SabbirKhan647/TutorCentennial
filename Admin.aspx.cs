@@ -133,4 +133,19 @@ public partial class Activities : System.Web.UI.Page
         }
         StudentView();
     }
+    protected void GridViewTeacher_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridViewTeacher.PageIndex = e.NewPageIndex;
+        TeacherView();
+    }
+    protected void GridViewSession_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridViewSession.PageIndex = e.NewPageIndex;
+        SessionGridView();
+    }
+    protected void GridViewStudent_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        GridViewStudent.PageIndex = e.NewPageIndex;
+        StudentView();
+    }
 }
