@@ -13,6 +13,9 @@
         .auto-style2 {
             font-size: small;
         }
+        .auto-style3 {
+            font-size: xx-large;
+        }
     </style>
 
 </asp:Content>
@@ -91,7 +94,7 @@
         <strong>Bonus:
         </strong>You will get additional worksheets and handouts from admin
         <br />
-        <span class="auto-style1"><strong>Manual for tutor: </strong></span> <br /><span class="auto-style2"><strong>Create profile First -&gt; Create your session -&gt; Create Session Details -&gt; Then upload document according to your session if you have any</strong></span></asp:Panel>
+        <span class="auto-style1"><strong>Manual for Tutor: </strong></span> <br /><span class="auto-style2"><strong>Create profile First -&gt; Create your session -&gt; Create Session Details -&gt; Then upload document according to your session if you have any</strong></span></asp:Panel>
     <asp:Panel ID="PanelConStu" runat="server" Visible="False">
         Congratulations!!! <br />
         Now As a Student you will enjoy the following features:
@@ -103,5 +106,7 @@
           
             
         </asp:BulletedList> 
+        <strong><span class="auto-style3">Manual for Student:</span></strong><br />
+        <strong>Create profile =&gt; Choose Subject, Grade -&gt; Then choose tutor from the list -&gt; then select one tutor </strong>
     </asp:Panel>
 </asp:Content>

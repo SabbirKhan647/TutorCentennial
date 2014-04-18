@@ -131,7 +131,7 @@ public partial class About : System.Web.UI.Page
 
             //Session["TeacherID"] = techerID;
 
-            string teacherid = Session["TeacherID"].ToString();
+        int teacherid = Connection.TeacherID;// Session["TeacherID"].ToString();
 
             string maxStu = DropDownNoOfStu.SelectedItem.Text;
 
@@ -249,7 +249,7 @@ public partial class About : System.Web.UI.Page
         catch (SqlException ex)
         {
             if (ex.Number == 2627)
-                LabelRole.Text =  "The profile aleary Created";
+                LabelRole.Text = "The profile aleary Created";
         }
     }
     protected void ButtonSession_Click(object sender, EventArgs e)

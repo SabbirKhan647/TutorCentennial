@@ -112,6 +112,6 @@
             </asp:CreateUserWizardStep>
         </WizardSteps>
     </asp:CreateUserWizard>
-    hjhj
-    <asp:Label ID="LabelCk" runat="server" Text="Label"></asp:Label>
+    
+    <asp:Label ID="LabelCk" runat="server" Text=""></asp:Label>
 </asp:Content>

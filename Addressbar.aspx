@@ -61,15 +61,15 @@
 <table id ="control">
 <tr>
 <td>
-<table>
+<table style="height: 108px; width: 433px">
 <tr>
-<td>From:</td>
+<td>&nbsp;</td>
 <td>
-    <input id="startvalue" type="text" style="width: 305px" /></td>
+    &nbsp;</td>
 </tr>
 <tr>
-<td>To:</td>
-<td><input id="endvalue" type="text" style="width: 301px" /></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
 </tr>
 <tr>
 <td>Tutor&#39;s Location:</td>

@@ -39,7 +39,7 @@ public partial class Worksheet : System.Web.UI.Page
             //DropDownListGrade.DataSource = d; DropDownListGrade.DataTextField = "GradeID"; DropDownListGrade.DataValueField = "GradeID";
             //DropDownListGrade.DataBind();
         
-            SqlDataAdapter Adapter = new SqlDataAdapter("select BatchID,BatchName from Batch where TeacherID = "+ Session["TeacherID"].ToString(), c);
+            SqlDataAdapter Adapter = new SqlDataAdapter("select BatchID,BatchName from Batch where TeacherID = "+ Connection.TeacherID, c);
             DataTable d = new DataTable(); Adapter.Fill(d);
             DropDownListSession.DataSource = d; DropDownListSession.DataTextField = "BatchName"; DropDownListSession.DataValueField = "BatchID";
             DropDownListSession.DataBind();
@@ -223,18 +223,26 @@ public partial class Worksheet : System.Web.UI.Page
     
     protected void ButtonShowStudent_Click(object sender, EventArgs e)
     {
-        c = Connection.connect();
-        c.Open();
-        string cmdText = "SELECT WorksheetID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where BatchID = "+DropDownListSessionStu.SelectedValue;
-        SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
-        DataTable dd = new DataTable();
-        adapt.Fill(dd);
-        GridViewStuDown.DataSource = dd;
-        GridViewStuDown.DataBind();
-        GridViewStuDown.Visible = true;
-        if (c != null)
+        try
         {
-            c.Close();
+            c = Connection.connect();
+            c.Open();
+            string cmdText = "SELECT WorksheetID, WorksheetName, LevelOfDifficulty, sizeA, worksheetData, worksheetType FROM Worksheet where BatchID = " + DropDownListSessionStu.SelectedValue;
+            SqlDataAdapter adapt = new SqlDataAdapter(cmdText, c);
+            DataTable dd = new DataTable();
+            adapt.Fill(dd);
+            GridViewStuDown.DataSource = dd;
+            GridViewStuDown.DataBind();
+            GridViewStuDown.Visible = true;
+            if (c != null)
+            {
+                c.Close();
+            }
+        }
+        catch (Exception )
+        {
+
+            Label1.Text = "Select your session first";
         }
 
     }

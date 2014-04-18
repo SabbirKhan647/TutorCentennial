@@ -119,6 +119,8 @@
             <asp:DropDownList ID="DropDownListSessionStu" runat="server" OnSelectedIndexChanged="DropDownListSessionStu_SelectedIndexChanged">
             </asp:DropDownList>
             <br />
+            <asp:Label ID="Label1" runat="server"></asp:Label>
+            <br />
             <br />
             <asp:Button ID="ButtonShowStudent" runat="server" OnClick="ButtonShowStudent_Click" Text="Show" Width="148px" />
             <br />

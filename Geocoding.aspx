@@ -57,15 +57,13 @@
 <table>
 <tr>
 <td>
-    <input id="addressinput" type="text" style="width: 447px" />   
-
-</td>
+    &nbsp;</td>
 <td>
     <input id="Button1" type="button" value="Find" onclick="return Button1_onclick()" /></td>
 </tr>
 <tr>
 <td colspan ="2">
-<div id ="map" style="height: 253px" >
+<div id ="map" style="height: 253px; width: 780px;" >
 </div>
 </td>
 </tr>
